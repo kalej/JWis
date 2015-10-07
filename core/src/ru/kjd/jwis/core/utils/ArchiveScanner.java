@@ -14,9 +14,6 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public class ArchiveScanner {
     private static Logger log = Logger.getLogger(ArchiveScanner.class.getName());
 
@@ -24,7 +21,7 @@ public class ArchiveScanner {
         List<String> list = new ArrayList<>();
         Pattern pattern = Pattern.compile(regex);
 
-        InputStream is = null;
+        InputStream is;
         try {
             is = new FileInputStream(archive);
 
@@ -41,8 +38,6 @@ public class ArchiveScanner {
 
             zis.closeEntry();
             zis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -142,7 +137,7 @@ public class ArchiveScanner {
 
     private static void extractImg(ZipInputStream zis, File file) {
 
-        BufferedImage image = null;
+        BufferedImage image;
         try {
             image = ImageIO.read(zis);
             ImageIO.write(image, "png", file);

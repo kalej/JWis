@@ -7,9 +7,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name = "sc")
 public class WisChapter {
     private String name;

@@ -4,9 +4,6 @@ import javafx.scene.control.TreeItem;
 import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisItem;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisTreeChapterItem extends TreeItem {
     WisChapter chapter;
     boolean completeExpand;

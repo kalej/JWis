@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.geometry.Pos;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import org.w3c.dom.Document;
@@ -12,22 +11,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLAnchorElement;
 import ru.kjd.jwis.core.ResourceManager;
-import ru.kjd.jwis.core.WisDocStreamHandler;
-import ru.kjd.jwis.core.WisImgStreamHandler;
-import ru.kjd.jwis.core.WisPaths;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisItemElement;
 
 import java.io.FileNotFoundException;
-import java.net.URL;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by anonymous on 10/6/15.
- */
 public class WisDocPane extends StackPane {
     WebView webView;
     WisImgView imageView;

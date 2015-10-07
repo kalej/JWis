@@ -1,8 +1,5 @@
 package ru.kjd.jwis.core.enums;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public enum Language {
     GERMANY("de"),
     SPAIN("es"),
@@ -21,7 +18,7 @@ public enum Language {
 
     private final String shortName;
 
-    private Language(String shortName){
+    Language(String shortName){
         this.shortName = shortName;
     }
 

@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name = "sit")
 public class WisItem {
     private List<Integer> documents = null;

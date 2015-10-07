@@ -15,9 +15,6 @@ import ru.kjd.jwis.core.xml.*;
 
 import java.util.Set;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public class ResourceTest {
     private static Logger log = Logger.getLogger(ResourceTest.class.getName());
 

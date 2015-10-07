@@ -6,9 +6,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name = "sie")
 public class WisItemElement {
     private int id;

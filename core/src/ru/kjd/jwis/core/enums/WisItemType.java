@@ -1,8 +1,5 @@
 package ru.kjd.jwis.core.enums;
 
-/**
- * Created by anonymous on 10/5/15.
- */
 public enum WisItemType {
     WIRING(10),
     REPLACEMENT(8),
@@ -17,7 +14,7 @@ public enum WisItemType {
 
     private int value;
 
-    private WisItemType(int value){
+    WisItemType(int value){
         this.value = value;
     }
 

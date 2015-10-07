@@ -12,9 +12,6 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public class ResourceManager {
     private static final String MODEL_REGEX = "^9-?[0-9]{1,3}x?( \\([0-9]{3,4}\\))?$";
     private static final String YEAR_REGEX = "[0-9]{4}\\.xml$";

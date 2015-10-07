@@ -10,9 +10,6 @@ import ru.kjd.jwis.core.xml.WisSection;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisTreeView extends TreeView {
     TreeItem root;
 

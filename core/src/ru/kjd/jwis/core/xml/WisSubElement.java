@@ -4,9 +4,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name="sisub")
 public class WisSubElement {
     private int id;

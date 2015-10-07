@@ -51,7 +51,7 @@ public class Main extends Application {
         buttons.getChildren().addAll(changeCar, backward, forward);
         HBox statusBar = new HBox();
         statusBar.setPadding(new Insets(0,10,10,10));
-        final Label name  = new Label("JWis for desktop");
+        final Label name  = new Label(WisProperties.PROG_NAME);
         Label curDoc = new Label();
         statusBar.getChildren().addAll(name, curDoc);
 

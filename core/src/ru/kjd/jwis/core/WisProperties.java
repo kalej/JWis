@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.Properties;
-/**
- * Created by anonymous on 10/5/15.
- */
 public class WisProperties extends Properties {
     public static final String PROG_NAME = "JWis 0.1 beta";
     private static final String PROP_FILE_NAME = "wis.properties";

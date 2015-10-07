@@ -17,9 +17,6 @@ import ru.kjd.jwis.core.utils.StringExtractor;
 
 import java.util.List;
 
-/**
- * Created by anonymous on 9/30/15.
- */
 public class WisCarSelectionDialog extends Stage {
     private static final double PREF_WIDTH = 160;
     private String model;
@@ -49,10 +46,10 @@ public class WisCarSelectionDialog extends Stage {
         Label yearLbl = new Label("Year: ");
         yearLbl.setPrefWidth(PREF_WIDTH);
 
-        final ComboBox<String> yearCombo = new ComboBox();
+        final ComboBox<String> yearCombo = new ComboBox<>();
         yearCombo.setPrefWidth(PREF_WIDTH);
 
-        final ComboBox<String> modelCombo = new ComboBox();
+        final ComboBox<String> modelCombo = new ComboBox<>();
         modelCombo.getItems().addAll(resourceManager.getModelList());
         modelCombo.setPrefWidth(PREF_WIDTH);
 
@@ -87,7 +84,7 @@ public class WisCarSelectionDialog extends Stage {
         yearCombo.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                String year = (String)yearCombo.getValue();
+                String year = yearCombo.getValue();
                 if ( year == null || year.isEmpty()  ){
                     okButton.setDisable(true);
                 }

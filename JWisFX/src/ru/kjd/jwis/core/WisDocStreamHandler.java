@@ -9,9 +9,6 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.util.logging.Logger;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisDocStreamHandler extends URLStreamHandler {
     Logger log = Logger.getLogger(WisDocStreamHandler.class.getName());
 

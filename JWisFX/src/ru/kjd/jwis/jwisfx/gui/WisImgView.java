@@ -11,9 +11,6 @@ import ru.kjd.jwis.core.xml.WisHierarchy;
 
 import java.io.FileNotFoundException;
 
-/**
- * Created by anonymous on 10/7/15.
- */
 public class WisImgView extends ScrollPane {
     Double maxHeight;
     Double maxWidth;

@@ -2,12 +2,6 @@ package ru.kjd.jwis.core;
 
 import ru.kjd.jwis.core.xml.WisHierarchy;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -15,9 +9,6 @@ import java.net.URLConnection;
 import java.net.URLStreamHandler;
 import java.util.logging.Logger;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisImgStreamHandler extends URLStreamHandler {
     private ResourceManager resourceManager;
     private WisHierarchy hierarchy;

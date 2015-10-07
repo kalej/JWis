@@ -6,9 +6,6 @@ import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisSection;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisTreeSectionItem extends TreeItem {
     WisSection section;
     boolean completeExpand;

@@ -6,9 +6,6 @@ import ru.kjd.jwis.core.xml.WisHierarchy;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public class WisPaths {
     public static String ROOT;
     public static final String XML_EXT = "xml";

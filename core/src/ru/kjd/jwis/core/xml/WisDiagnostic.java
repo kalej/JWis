@@ -5,9 +5,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name="diagnostic")
 public class WisDiagnostic {
     private String step;

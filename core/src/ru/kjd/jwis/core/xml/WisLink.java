@@ -3,9 +3,6 @@ package ru.kjd.jwis.core.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- * Created by anonymous on 9/29/15.
- */
 @XmlRootElement(name="link")
 public class WisLink {
     private int linkId;

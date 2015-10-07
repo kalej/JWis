@@ -9,9 +9,6 @@ import ru.kjd.jwis.core.xml.*;
 import java.util.Arrays;
 import java.util.Set;
 
-/**
- * Created by anonymous on 10/6/15.
- */
 public class WisTabPane extends TabPane {
     private WisHierarchy wisHierarchy;
     private ResourceManager resourceManager;

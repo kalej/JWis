@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by anonymous on 9/29/15.
- */
-
 @XmlRootElement( name = "modelyear" )
 public class WisHierarchy {
     private String carModel;

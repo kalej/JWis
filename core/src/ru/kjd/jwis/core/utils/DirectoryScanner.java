@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by anonymous on 10/1/15.
- */
 public class DirectoryScanner {
     public static File[] getFiles(String path, final String regex){
         File directory = new File(path);

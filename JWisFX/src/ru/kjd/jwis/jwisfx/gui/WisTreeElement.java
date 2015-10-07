@@ -4,9 +4,6 @@ import javafx.scene.control.TreeItem;
 import ru.kjd.jwis.core.xml.WisItemElement;
 import ru.kjd.jwis.core.xml.WisSubElement;
 
-/**
- * Created by anonymous on 10/2/15.
- */
 public class WisTreeElement extends TreeItem {
     WisItemElement itemElement;
 
