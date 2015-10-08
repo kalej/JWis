@@ -3,7 +3,10 @@ package ru.kjd.jwis.jwisfx.gui;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import org.w3c.dom.Document;
@@ -13,18 +16,21 @@ import org.w3c.dom.html.HTMLAnchorElement;
 import ru.kjd.jwis.core.ResourceManager;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisItemElement;
+import ru.kjd.jwis.jwisfx.Main;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WisDocPane extends StackPane {
     WebView webView;
-    WisImgView imageView;
+    //WisImgView imageView;
     WisItemElement itemElement;
     ResourceManager resourceManager;
     String imgName;
     WisHierarchy hierarchy;
+    Button imageButton;
 
     private final static String WIS_IMG_PREFIX = "wisimg://i";
 
@@ -54,13 +60,20 @@ public class WisDocPane extends StackPane {
         List<HTMLAnchorElement> anchors = anchors();
         if ( anchors.size() == 1 ){
             imgName = anchors.get(0).getHref().substring(WIS_IMG_PREFIX.length()-1);
-            try {
-                imageView = new WisImgView(getHeight(), getWidth(), hierarchy, resourceManager, imgName);
-                getChildren().add(imageView);
-                setAlignment(imageView, Pos.BOTTOM_RIGHT);
-            } catch (FileNotFoundException e) {
+            imageButton = new Button("Image");
+            imageButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    try {
+                        (new WisImageDialog(Main.getMainWindow(), hierarchy, resourceManager, imgName)).showAndWait();
+                    } catch (IOException e) {
 
-            }
+                    }
+                }
+            });
+                //imageView = new WisImgView(getHeight(), getWidth(), hierarchy, resourceManager, imgName);
+            getChildren().add(imageButton);
+            setAlignment(imageButton, Pos.BOTTOM_RIGHT);
         }
     }
 
@@ -74,7 +87,9 @@ public class WisDocPane extends StackPane {
             if ( node instanceof HTMLAnchorElement){
                 HTMLAnchorElement link = (HTMLAnchorElement)node;
                 String src = link.getHref();
-                if ( src != null && src.toLowerCase().startsWith(WIS_IMG_PREFIX)){
+                if ( src != null
+                        && src.toLowerCase().startsWith(WIS_IMG_PREFIX)
+                        && (src.length() > WIS_IMG_PREFIX.length())){
                         result.add(link);
                 }
             }

@@ -64,7 +64,7 @@ public class WisCarSelectionDialog extends Stage {
         modelCombo.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
-                List<String> years = resourceManager.getYears(modelCombo.getValue());
+                List<String> years = resourceManager.getXmls(modelCombo.getValue());
 
                 if ( years.size() <= 0 )
                 {
@@ -105,7 +105,11 @@ public class WisCarSelectionDialog extends Stage {
         root.getChildren().add(gridPane);
     }
 
-    public String getSelectedXMLPath() {
-        return WisPaths.getXMLPath(model, year);
+    public String getModel() {
+        return model;
+    }
+
+    public String getYear() {
+        return year;
     }
 }

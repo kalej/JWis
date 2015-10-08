@@ -50,7 +50,10 @@ public class WisDocStreamHandler extends URLStreamHandler {
             }
             else
             {
-                return resourceManager.getDocInputStream(hierarchy, Integer.parseInt(host));
+                if ( host.charAt(0) == 'l' )
+                    return resourceManager.getLinkInputStream(hierarchy, Integer.parseInt(host.substring(1)));
+                else
+                    return resourceManager.getDocInputStream(hierarchy, Integer.parseInt(host));
             }
 
         }

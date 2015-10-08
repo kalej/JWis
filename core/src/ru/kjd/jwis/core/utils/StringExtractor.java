@@ -2,7 +2,8 @@ package ru.kjd.jwis.core.utils;
 
 public class StringExtractor {
     public static String extractYear(String yearFile) {
-        return yearFile.substring(0, 4);
+        int begin = yearFile.length() - "yyyyll.xml".length();
+        return yearFile.substring(begin, begin + "yyyy".length());
     }
 
     public static String extractLanguage(String yearFile){

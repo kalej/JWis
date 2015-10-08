@@ -4,34 +4,33 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import ru.kjd.jwis.core.ResourceManager;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
-public class WisImgView extends ScrollPane {
+public class WisImgView extends ImageView {
     Double maxHeight;
     Double maxWidth;
     Double previewRatio = 0.3;
     WisHierarchy hierarchy;
     ResourceManager resourceManager;
     String imgName;
-    ImageView imageView;
 
     EventHandler<MouseEvent> previewImageListener = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent){
-            imageView.removeEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
+            removeEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
 
             try {
-                imageView.setImage(resourceManager.getImage(hierarchy, imgName));
-                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
-                setFitToHeight(true);
-                setFitToWidth(true);
-            } catch (FileNotFoundException e) {
-                imageView.setVisible(false);
+                setImage(resourceManager.getImage(hierarchy, imgName));
+                addEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
+            } catch (IOException e) {
+                setVisible(false);
             }
         }
     };
@@ -39,32 +38,27 @@ public class WisImgView extends ScrollPane {
     EventHandler<MouseEvent> expandedImageListener = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            imageView.removeEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
+            removeEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
 
             try {
-                imageView.setImage(resourceManager.getImagePreview(hierarchy, imgName, maxWidth * previewRatio, maxHeight * previewRatio));
-                imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
-                setFitToHeight(false);
-                setFitToWidth(false);
-            } catch (FileNotFoundException e) {
-                imageView.setVisible(false);
+                setImage(resourceManager.getImagePreview(hierarchy, imgName, maxWidth * previewRatio, maxHeight * previewRatio));
+                addEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
+            } catch (IOException e) {
+                setVisible(false);
             }
         }
     };
 
-    public WisImgView(Double maxHeight, Double maxWidth, WisHierarchy hierarchy, ResourceManager resourceManager, String imgName) throws FileNotFoundException {
+    public WisImgView(Double maxHeight, Double maxWidth, WisHierarchy hierarchy, ResourceManager resourceManager, String imgName) throws IOException {
         this.maxHeight = maxHeight;
         this.maxWidth = maxWidth;
         this.hierarchy = hierarchy;
         this.resourceManager = resourceManager;
         this.imgName = imgName;
 
-        imageView = new ImageView();
-        imageView.setPreserveRatio(true);
-        imageView.setImage(resourceManager.getImagePreview(hierarchy, imgName, maxWidth * previewRatio, maxHeight * previewRatio));
-        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
-
-        setPrefSize(imageView.getImage().getWidth(), imageView.getImage().getHeight());
-        setContent(imageView);
+        setPreserveRatio(true);
+        Image image = resourceManager.getImagePreview(hierarchy, imgName, maxWidth * previewRatio, maxHeight * previewRatio);
+        setImage(image);
+        addEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
     }
 }

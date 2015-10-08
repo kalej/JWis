@@ -25,11 +25,12 @@ import java.util.logging.Logger;
 
 public class Main extends Application {
     private final int TREE_WIDTH_PERCENT = 30;
-
+    private static Stage mainWindow;
     static Logger log = Logger.getLogger(Main.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        mainWindow = primaryStage;
         primaryStage.setTitle("JWisFX");
 
         WisProperties properties = new WisProperties();
@@ -38,7 +39,7 @@ public class Main extends Application {
         WisCarSelectionDialog myDialog = new WisCarSelectionDialog(primaryStage, resourceManager);
         myDialog.showAndWait();
 
-        final WisHierarchy wisHierarchy = resourceManager.loadXMLHierarchy(myDialog.getSelectedXMLPath());
+        final WisHierarchy wisHierarchy = resourceManager.loadXMLHierarchy(myDialog.getModel(), myDialog.getYear());
 
         BorderPane borderPane = new BorderPane();
         Button changeCar = new Button("Change car");
@@ -126,5 +127,9 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static Stage getMainWindow() {
+        return mainWindow;
     }
 }

@@ -1,7 +1,5 @@
 package ru.kjd.jwis.core.utils;
 
-import net.sf.jcgm.core.CGM;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;

@@ -3,7 +3,6 @@ package ru.kjd.jwis.core;
 import ru.kjd.jwis.core.enums.Language;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class WisPaths {
@@ -13,7 +12,9 @@ public class WisPaths {
     public static final String GSON_EXT = "gson";
     private static final String DOC_PATH = "doc";
     private static final String IMG_PATH = "img";
+    private static final String HTML_EXT = "htm";
     private static final String WORK_PATH = "work";
+    private static Language language = null;
 
     static {
         String OS = System.getProperty("os.name").toLowerCase();
@@ -35,9 +36,6 @@ public class WisPaths {
         return Paths.get(ROOT, model).toString();
     }
 
-    public static String getDocArchive(WisHierarchy hierarchy, Language language, int docId ){
-        return Paths.get(getModelRoot(hierarchy), language.getShortName() + docId/1000 + ".zip").toString();
-    }
 
     public static String getDocRoot(WisHierarchy hierarchy){
         return Paths.get(getModelRoot(hierarchy), DOC_PATH).toString();
@@ -73,7 +71,7 @@ public class WisPaths {
     }
 
     public static String getXMLPath(String model, String year) {
-        return Paths.get(getModelRoot(model), year + (year.endsWith(XML_EXT)?"":"." + XML_EXT)).toString();
+        return Paths.get(getModelRoot(model), model + year + language.getShortName() +  "." + XML_EXT).toString();
     }
 
     public static String getWorkImgPath(String imgName){
@@ -82,5 +80,21 @@ public class WisPaths {
 
     public static String getWorkPath() {
         return Paths.get(getResourceRoot(), WORK_PATH).toString();
+    }
+
+    public static String getZipFile(WisHierarchy hierarchy, int docId) {
+        return Paths.get(getModelRoot(hierarchy), language.getShortName() + docId/1000 + "." + ZIP_EXT).toString();
+    }
+
+    public static String getDocFileName(int docId) {
+        return "doc" + docId + "." + HTML_EXT;
+    }
+
+    public static void setLanguage(Language language) {
+        WisPaths.language = language;
+    }
+
+    public static String getArchive(WisHierarchy hierarchy, String archiveName) {
+        return Paths.get(getModelRoot(hierarchy), archiveName).toString();
     }
 }

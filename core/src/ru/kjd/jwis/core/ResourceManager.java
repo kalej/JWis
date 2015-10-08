@@ -1,9 +1,11 @@
 package ru.kjd.jwis.core;
 
 import javafx.scene.image.Image;
-import ru.kjd.jwis.core.utils.ArchiveScanner;
+import javafx.util.Pair;
+import net.sf.jcgm.core.CGM;
+import net.sf.jcgm.core.CGMDisplay;
 import ru.kjd.jwis.core.utils.DirectoryScanner;
-import ru.kjd.jwis.core.xml.WisHierarchy;
+import ru.kjd.jwis.core.xml.*;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.*;
@@ -11,94 +13,79 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 public class ResourceManager {
-    private static final String MODEL_REGEX = "^9-?[0-9]{1,3}x?( \\([0-9]{3,4}\\))?$";
-    private static final String YEAR_REGEX = "[0-9]{4}\\.xml$";
-
-    private SortedMap<String, List<String>> modelsMaps = new TreeMap<>();
+    private static final String MODEL_REGEX = "^9-?[0-9]{1,3}x?( \\([0-9]{3,4}\\))?";
+    private static final String YEAR_REGEX = "[0-9]{4}";
+    private static final String XML_EXT_REGEX = "\\.xml$";
+    private static final String IMAGE_REGEX = "^images[0-9]{1,2}\\.zip";
+    private SortedMap<String, Pair<String, String>> imageToArchive;
+    private SortedMap<String, List<String>> modelToXmls = new TreeMap<>();
 
     private static Logger log = Logger.getLogger(ResourceManager.class.getName());
     private WisProperties properties;
 
     public ResourceManager(WisProperties properties) {
         this.properties = properties;
-
+        WisPaths.setLanguage(properties.getLanguage());
         findResources();
     }
 
     public Set<String> getModelList(){
-        return modelsMaps.keySet();
+        return modelToXmls.keySet();
     }
 
-    public List<String> getYears(String model){
-        return modelsMaps.get(model);
+    public List<String> getXmls(String model){
+        return modelToXmls.get(model);
     }
 
-    public void findResources(){
-        List<String> models = DirectoryScanner.getFilenames(WisPaths.ROOT, MODEL_REGEX);
+    private String getYearRegex(String model){
+        return model
+                .replace("(", "\\(")
+                .replace(")", "\\)")
+                .concat(YEAR_REGEX)
+                .concat(properties.getLanguage().getShortName())
+                .concat(XML_EXT_REGEX);
+    }
+
+    private void findResources(){
+        List<String> models = DirectoryScanner.getFilenames(WisPaths.ROOT, MODEL_REGEX + "$");
         for( String model : models ){
-            List<String> years = DirectoryScanner.getFilenames(WisPaths.getModelRoot(model), YEAR_REGEX);
+            String yearRegex = getYearRegex(model);
+            List<String> years = DirectoryScanner.getFilenames(WisPaths.getModelRoot(model), yearRegex);
             if ( years.size() > 0 ){
                 Collections.sort(years);
-                modelsMaps.put(model, years);
+                modelToXmls.put(model, years);
             }
         }
     }
 
-    private void unpackImages() {
-        for (String model : getModelList() ) {
-            File[] imageArchives = scanImgArchives(model);
-
-            for ( File imageArchive : imageArchives ){
-                try {
-                    ArchiveScanner.unpackImgArchive(imageArchive, WisPaths.getImgRoot(model));
-                    imageArchive.delete();
-                } catch (IOException e) {
-                    log.info(e.getMessage());
+    private SortedMap<String, Pair<String, String>> scanImgArchives(String model){
+        SortedMap<String, Pair<String, String>> map = new TreeMap<>();
+        File[] modelImgFiles = DirectoryScanner.getFiles(WisPaths.getModelRoot(model), IMAGE_REGEX);
+        for ( File file : modelImgFiles ){
+            try{
+                ZipFile zipFile = new ZipFile(file);
+                Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                while( entries.hasMoreElements() ){
+                    String entryname = entries.nextElement().getName();
+                    Pair<String, String> extArch = new Pair(entryname.substring(entryname.indexOf('.')), file.getName());
+                    map.put(entryname.substring(0, entryname.indexOf('.')), extArch);
                 }
+            } catch (ZipException e) {
+                log.info(e.getMessage());
+            } catch (IOException e) {
+                log.info(e.getMessage());
             }
         }
+        return map;
     }
 
-    public void unpackDocs(){
-        for (String model : getModelList() ){
-            File[] docArchires = scanDocArchives(model);
-            for ( File docArchive : docArchires ){
-                try {
-                    ArchiveScanner.unpackDocArchive(docArchive, WisPaths.getDocRoot(model));
-                    docArchive.delete();
-                } catch (IOException e) {
-                    log.info(e.getMessage());
-                }
-            }
-        }
-    }
-
-    //public static Set<Language> getAvailableLanguages() {
-    //    return availableLanguages;
-    //}
-
-    //public static void setSelectedLanguage(Language selectedLanguage) {
-    //    ResourceManager.selectedLanguage = selectedLanguage;
-    //}
-
-    public File[] scanDocArchives(String model){
-        String pattStr = "^" + properties.getLanguage().getShortName() + "[0-9]{1,2}\\.zip";
-        return DirectoryScanner.getFiles(WisPaths.getModelRoot(model), pattStr);
-    }
-
-    public File[] scanImgArchives(String model){
-        File[] modelDocFiles = DirectoryScanner.getFiles(WisPaths.getModelRoot(model), "^images[0-9]{1,2}\\.zip" );
-        return modelDocFiles;
-    }
-
-    private WisHierarchy loadXMLHierarchy(String model, String year) throws IOException, JAXBException {
-        String fullName = WisPaths.getXMLPath(model, year);
-        return loadXMLHierarchy(fullName);
-    }
-
-    public WisHierarchy loadXMLHierarchy(String xmlPath) throws IOException, JAXBException {
+    public WisHierarchy loadXMLHierarchy(String model, String year) throws IOException, JAXBException {
+        String xmlPath = WisPaths.getXMLPath(model, year);
         InputStream is = new FileInputStream(new File(xmlPath));
         InputStreamReader isr = new InputStreamReader(is, properties.getCharset());
         BufferedReader brin = new BufferedReader(isr);
@@ -117,6 +104,7 @@ public class ResourceManager {
 
         WisHierarchy hierarchy = (WisHierarchy) unmarshaller.unmarshal(reader);
         hierarchy.setReverseLinks();
+        imageToArchive = scanImgArchives(model);
         return hierarchy;
     }
 
@@ -125,12 +113,26 @@ public class ResourceManager {
         return new FileInputStream(file);
     }
 
-    public Image getImagePreview(WisHierarchy hierarchy, String substring, double width, double height) throws FileNotFoundException {
+    public Image getImagePreview(WisHierarchy hierarchy, String substring, double width, double height) throws IOException {
         return new Image(getImgInputStream(hierarchy, substring), width, height, true, false);
     }
 
-    public Image getImage(WisHierarchy hierarchy, String imgName) throws FileNotFoundException {
+    public Image getImage(WisHierarchy hierarchy, String imgName) throws IOException {
         return new Image(getImgInputStream(hierarchy, imgName));
+    }
+
+    public InputStream getLinkInputStream(WisHierarchy hierarchy, int linkId) throws IOException {
+        return getDocInputStream(hierarchy, findLinkedDoc(hierarchy, linkId));
+    }
+
+    private int findLinkedDoc(WisHierarchy hierarchy, int linkId) throws IOException {
+        for (WisSection section : hierarchy.getSections())
+            for (WisChapter chapter : section.getChapters())
+                for(WisItem item : chapter.getItems())
+                    for(WisItemElement itemElement : item.getElements())
+                        if ( itemElement.getId() == linkId )
+                            itemElement.getDocId();
+        return 0;
     }
 
     private static class WisXmlEventHandler implements ValidationEventHandler {
@@ -141,35 +143,56 @@ public class ResourceManager {
         }
     }
 
-    public FileInputStream getDocInputStream(WisHierarchy hierarchy, int docId) throws FileNotFoundException {
-        File docFile = new File(WisPaths.getDocFile(hierarchy, docId));
-        return new FileInputStream(docFile);
+    public InputStream getDocInputStream(WisHierarchy hierarchy, int docId) throws IOException {
+        File file = new File(WisPaths.getZipFile(hierarchy, docId));
+        ZipFile zipFile = new ZipFile(file);
+        ZipEntry zipEntry = zipFile.getEntry(WisPaths.getDocFileName(docId));
+        return zipFile.getInputStream(zipEntry);
     }
 
-    public FileInputStream getImgInputStream(WisHierarchy hierarchy, String imgName) throws FileNotFoundException {
+    public InputStream getImgInputStream(WisHierarchy hierarchy, String imgName) throws IOException {
+        String fileName;
         if ( imgName.charAt(0) == 'i' ) {
-            String fileName = imgName.substring(1);
-            File pngfile = new File(WisPaths.getImgFile(hierarchy, fileName.concat(".png")));
-            try {
-                return new FileInputStream(pngfile);
-            } catch (Exception e){
-                File cgmfile = new File(WisPaths.getImgFile(hierarchy, fileName.concat(".cgm")));
-                FileInputStream cgmis = new FileInputStream(cgmfile);
-
-                if ( cgmis == null )
-                    return null;
-
-                try {
-                    BufferedImage image = ImageIO.read(cgmis);
-                    ImageIO.write(image, "png", pngfile);
-                    cgmfile.delete();
-                    return new FileInputStream(pngfile);
-                } catch (IOException ex) {
-                    log.info(ex.getMessage());
-                }
-            }
+            fileName = imgName.substring(1);
+        } else {
+            fileName = imgName;
         }
-        File imgFile = new File(WisPaths.getImgFile(hierarchy, imgName));
-        return new FileInputStream(imgFile);
+
+        Pair<String, String> extArch = imageToArchive.get(fileName);
+
+        if ( extArch == null ){
+            log.info("Image " + fileName + " not found");
+            return null;
+        }
+
+        log.info("Image " + fileName + extArch.getKey() + " found in " + extArch.getValue());
+
+
+        File archive = new File(WisPaths.getArchive(hierarchy, extArch.getValue()));
+        ZipFile zipFile = new ZipFile(archive);
+        ZipEntry entry = zipFile.getEntry(fileName + extArch.getKey());
+
+        if ( extArch.getKey().endsWith("cgm"))
+            return unpackImgFile(zipFile.getInputStream(entry));
+        else
+            return zipFile.getInputStream(entry);
+    }
+
+    private InputStream unpackImgFile(InputStream inputStream) throws IOException {
+        File tmpCgm = File.createTempFile("img", ".cgm");
+        FileOutputStream fos = new FileOutputStream(tmpCgm);
+
+        int len;
+        byte[] buffer = new byte[1024];
+        while( (len = inputStream.read(buffer)) > 0){
+            fos.write(buffer, 0, len);
+        }
+        fos.close();
+
+        BufferedImage image = ImageIO.read(tmpCgm);
+        File tmpPng = File.createTempFile("img", ".png");
+        ImageIO.write(image, "PNG", tmpPng);
+
+        return new FileInputStream(tmpPng);
     }
 }
