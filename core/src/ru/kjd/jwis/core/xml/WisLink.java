@@ -25,4 +25,5 @@ public class WisLink {
     public void setDest(String dest) {
         this.dest = dest;
     }
+
 }

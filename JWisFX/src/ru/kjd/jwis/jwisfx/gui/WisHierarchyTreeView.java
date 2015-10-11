@@ -10,25 +10,25 @@ import ru.kjd.jwis.core.xml.WisSection;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
-public class WisTreeView extends TreeView {
+public class WisHierarchyTreeView extends TreeView {
     TreeItem root;
 
-    public WisTreeView(WisHierarchy hierarchy) {
+    public WisHierarchyTreeView(WisHierarchy hierarchy) {
         root = new TreeItem("hide me sucker");
         doRoot();
 
         for(WisSection section : hierarchy.getSections()){
-            root.getChildren().add(new WisTreeSectionItem(section, false));
+            root.getChildren().add(new WisTreeSectionItem(section));
         }
     }
 
-    public WisTreeView(WisSection section) {
-        root = new WisTreeSectionItem(section, true);
+    public WisHierarchyTreeView(WisSection section) {
+        root = new WisTreeSectionItem(section);
         doRoot();
     }
 
-    public WisTreeView(WisChapter chapter) {
-        root = new WisTreeChapterItem(chapter, true);
+    public WisHierarchyTreeView(WisChapter chapter) {
+        root = new WisTreeChapterItem(chapter);
         doRoot();
     }
 

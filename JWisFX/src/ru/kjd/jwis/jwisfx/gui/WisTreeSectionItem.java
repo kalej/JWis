@@ -8,17 +8,13 @@ import ru.kjd.jwis.core.xml.WisSection;
 
 public class WisTreeSectionItem extends TreeItem {
     WisSection section;
-    boolean completeExpand;
-    public WisTreeSectionItem(WisSection section, boolean completeExpand) {
+
+    public WisTreeSectionItem(WisSection section) {
         super(section.getName());
         this.section = section;
-        this.completeExpand = completeExpand;
-        updateNodes(completeExpand);
-    }
 
-    private void updateNodes(boolean completeExpand) {
         for( WisChapter chapter : section.getChapters()){
-            getChildren().add(new WisTreeChapterItem(chapter, completeExpand));
+            getChildren().add(new WisTreeChapterItem(chapter));
         }
     }
 
