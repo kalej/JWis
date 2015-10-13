@@ -27,14 +27,12 @@ import java.util.logging.Logger;
 
 public class JWisFX extends Application {
     private final int TREE_WIDTH_PERCENT = 30;
-    private static Stage mainWindow;
     static Logger log = Logger.getLogger(JWisFX.class.getName());
 
     static WisItemTabPane wisItemTabPane;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        mainWindow = primaryStage;
         primaryStage.setTitle("JWisFX");
 
         WisProperties properties = new WisProperties();
@@ -100,15 +98,7 @@ public class JWisFX extends Application {
 
                 if ( selectedItem instanceof  WisTreeChapterItem ){
                     wisItemTabPane.show(((WisTreeChapterItem) selectedItem).getChapter());
-                } /*else if (selectedItem instanceof WisTreeElement) {
-                    wisItemTabPane.show(((WisTreeElement) selectedItem).getItemElement());
-                } else if ( selectedItem instanceof WisItemTreeView) {
-                    wisItemTabPane.show(((WisItemTreeView) selectedItem).getItem());
-                } else if (selectedItem instanceof WisTreeSectionItem) {
-                    wisItemTabPane.show(((WisTreeSectionItem)selectedItem).getSection());
-                } else if ( selectedItem instanceof  WisTreeSubElement) {
-                    wisItemTabPane.show(((WisTreeSubElement)selectedItem).getSubElement());
-                }*/
+                }
             }
         });
         grid.addColumn(0, treeView);
@@ -121,20 +111,8 @@ public class JWisFX extends Application {
         primaryStage.show();
     }
 
-    private static void logDoc(Node node){
-        log.info("node name: " + node.getNodeName() + "; node class: " + node.getClass().getName());
-
-        NodeList subnodes = node.getChildNodes();
-        for ( int i = 0; i < subnodes.getLength(); i++)
-            logDoc(subnodes.item(i));
-    }
-
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static Stage getMainWindow() {
-        return mainWindow;
     }
 
     public static void showChapter(WisChapter chapter) {

@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import ru.kjd.jwis.core.ResourceManager;
 
 import ru.kjd.jwis.core.WisPaths;
@@ -26,6 +28,8 @@ public class WisCarSelectionDialog extends Stage {
         super();
         initOwner(owner);
 
+        initStyle(StageStyle.UNDECORATED);
+
         Group root = new Group();
         setTitle("select");
 
@@ -33,9 +37,9 @@ public class WisCarSelectionDialog extends Stage {
         setScene(scene);
 
         GridPane gridPane = new GridPane();
+
         gridPane.setVgap(10);
         gridPane.setHgap(10);
-        gridPane.setGridLinesVisible(true);
         gridPane.setAlignment(Pos.CENTER);
 
         gridPane.setPadding(new Insets(20));

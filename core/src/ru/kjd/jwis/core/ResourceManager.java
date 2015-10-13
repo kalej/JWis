@@ -193,6 +193,8 @@ public class ResourceManager {
         File tmpPng = File.createTempFile("img", ".png");
         ImageIO.write(image, "PNG", tmpPng);
 
+        log.info("Unpacked to " + tmpCgm.getName());
+        log.info("Converted to " + tmpPng.getName());
         return new FileInputStream(tmpPng);
     }
 }

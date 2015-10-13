@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
+import java.util.Locale;
 import java.util.Properties;
 public class WisProperties extends Properties {
     public static final String PROG_NAME = "JWis 0.1 beta";
@@ -18,12 +19,18 @@ public class WisProperties extends Properties {
     private Charset charset;
     private Language language;
 
-    public WisProperties() throws IOException {
-        FileInputStream fis = new FileInputStream(new File(Paths.get(WisPaths.getResourceRoot(),PROP_FILE_NAME).toString()));
-        load(fis);
+    public WisProperties() {
 
-        charset = Charset.forName(getProperty(PROP_ENCODING));
-        language = Language.valueOfSName(getProperty(PROP_LANGUAGE));
+        try {
+            FileInputStream fis = new FileInputStream(new File(Paths.get(WisPaths.getResourceRoot(), PROP_FILE_NAME).toString()));
+            load(fis);
+
+            charset = Charset.forName(getProperty(PROP_ENCODING));
+            language = Language.valueOfSName(getProperty(PROP_LANGUAGE));
+        } catch (IOException e) {
+            charset = Charset.forName("windows-1251");
+            language = Language.RUSSIA;
+        }
     }
 
     public Charset getCharset() {

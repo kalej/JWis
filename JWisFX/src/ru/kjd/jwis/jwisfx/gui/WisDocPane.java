@@ -54,19 +54,20 @@ public class WisDocPane extends StackPane {
             public void changed(ObservableValue<? extends Worker.State> observableValue, Worker.State state, Worker.State t1) {
                 if (t1 == Worker.State.SUCCEEDED){
                     addHyperlinkListeners();
-                    //loadElementImage();
                 }
             }
         });
 
         webView.getEngine().locationProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observableValue, final String s, String t1) {
+            public void changed(ObservableValue<? extends String> observableValue, final String s, final String t1) {
                 if ( t1.startsWith(WIS_IMG_PREFIX) ){
+                    webView.getEngine().getLoadWorker().cancel();
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            webView.getEngine().load(s);
+                            String content = "<html><body><img src=\"" + t1 + "\"/></body></html>";
+                            webView.getEngine().loadContent(content);
                         }
                     });
                 }
@@ -85,13 +86,7 @@ public class WisDocPane extends StackPane {
                     @Override
                     public void handleEvent(Event evt) {
                         HTMLAnchorElement link = (HTMLAnchorElement)node;
-                        if ( link.getHref().startsWith(WIS_IMG_PREFIX) ){
-                            try {
-                                (new WisImageDialog(JWisFX.getMainWindow(), hierarchy, resourceManager, link.getHref().substring(WIS_IMG_PREFIX.length()-1))).showAndWait();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else if ( link.getHref().startsWith(WIS_LINK_PREFIX)){
+                        if ( link.getHref().startsWith(WIS_LINK_PREFIX)){
                             for( WisLink wisLink : itemElement.getLinks() ){
                                 if (wisLink.getLinkId() == Integer.parseInt(link.getHref().substring(WIS_IMG_PREFIX.length()))){
                                     webView.getEngine().load("wisref://" + wisLink.getDest());
@@ -112,46 +107,5 @@ public class WisDocPane extends StackPane {
     public WisDocPane(WisHierarchy hierarchy, WisSubElement subElement, ResourceManager resourceManager) {
         this(hierarchy, resourceManager);
         webView.getEngine().load("wisref://" + subElement.getParent().getDocId() + "#" + subElement.getSiSubId());
-    }
-
-    private void loadElementImage(){
-        List<HTMLAnchorElement> anchors = anchors();
-        if ( anchors.size() == 1 ){
-            imgName = anchors.get(0).getHref().substring(WIS_IMG_PREFIX.length()-1);
-            imageButton = new Button("Image");
-            imageButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    try {
-                        (new WisImageDialog(JWisFX.getMainWindow(), hierarchy, resourceManager, imgName)).showAndWait();
-                    } catch (IOException e) {
-
-                    }
-                }
-            });
-                //imageView = new WisImgView(getHeight(), getWidth(), hierarchy, resourceManager, imgName);
-            getChildren().add(imageButton);
-            setAlignment(imageButton, Pos.BOTTOM_RIGHT);
-        }
-    }
-
-    private List<HTMLAnchorElement> anchors(){
-        List<HTMLAnchorElement> result = new ArrayList<>();
-        Document doc = webView.getEngine().getDocument();
-        NodeList links = doc.getElementsByTagName("a");
-        for ( int i = 0; i < links.getLength(); i++ ){
-            Node node = links.item(i);
-
-            if ( node instanceof HTMLAnchorElement){
-                HTMLAnchorElement link = (HTMLAnchorElement)node;
-                String src = link.getHref();
-                if ( src != null
-                        && src.toLowerCase().startsWith(WIS_IMG_PREFIX)
-                        && (src.length() > WIS_IMG_PREFIX.length())){
-                        result.add(link);
-                }
-            }
-        }
-        return result;
     }
 }

@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/core_jar</output-path>
     <root id="archive" name="core.jar">
       <element id="module-output" name="core" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/lib/jcgm-core-0.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/core/lib/jcgm-image-0.1.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
