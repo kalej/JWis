@@ -13,7 +13,7 @@ import java.util.Map;
 public class WisItem {
     private List<Integer> documents = null;
     private String name;
-    private  WisChapter parent;
+    private WisChapter parent;
     private int id;
 
     private String num;
@@ -57,10 +57,10 @@ public class WisItem {
     }
 
     public List<Integer> getDocuments() {
-        if ( documents == null ){
+        if (documents == null) {
             documents = new ArrayList<>();
 
-            for ( WisItemElement itemElement : elements ){
+            for (WisItemElement itemElement : elements) {
                 documents.add(itemElement.getDocId());
             }
         }
@@ -68,18 +68,18 @@ public class WisItem {
     }
 
     public void scanMap(Map<Integer, String> docMap) {
-        for ( WisItemElement element : elements )
+        for (WisItemElement element : elements)
             element.scanMap(docMap);
     }
 
-    public WisItemType getType(){
+    public WisItemType getType() {
         return WisItemType.valueOf(Integer.parseInt(num.substring(0, 2)));
     }
 
     public void setReverseLinks(WisChapter chapter) {
         this.parent = chapter;
 
-        for ( WisItemElement itemElement : elements )
+        for (WisItemElement itemElement : elements)
             itemElement.setReverseLinks(this);
     }
 

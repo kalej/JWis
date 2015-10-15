@@ -16,10 +16,6 @@ public class WisSection {
     private List<Integer> documents = null;
     private WisHierarchy parent;
 
-    public String getName() {
-        return name;
-    }
-
     public WisSection() {
         name = null;
         id = -1;
@@ -32,6 +28,10 @@ public class WisSection {
         this.id = id;
         this.num = num;
         this.chapters = chapters;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @XmlElement(name = "name")
@@ -67,10 +67,10 @@ public class WisSection {
     }
 
     public List<Integer> getDocuments() {
-        if ( documents == null ){
+        if (documents == null) {
             documents = new ArrayList<>();
 
-            for( WisChapter chapter : chapters ){
+            for (WisChapter chapter : chapters) {
                 documents.addAll(chapter.getDocuments());
             }
         }
@@ -78,14 +78,14 @@ public class WisSection {
     }
 
     public void scanMap(Map<Integer, String> docMap) {
-        for ( WisChapter chapter : chapters ){
+        for (WisChapter chapter : chapters) {
             chapter.scanMap(docMap);
         }
     }
 
-    public Set<WisItemType> getTypes(){
+    public Set<WisItemType> getTypes() {
         Set<WisItemType> set = new HashSet<>();
-        for( WisChapter chapter : chapters ){
+        for (WisChapter chapter : chapters) {
             set.addAll(chapter.getTypes());
         }
         return set;
@@ -93,8 +93,8 @@ public class WisSection {
 
     public WisSection filter(WisItemType type) {
         List<WisChapter> filteredChapters = new ArrayList<>();
-        for( WisChapter chapter : chapters ){
-            if ( chapter.getTypes().contains(type) ){
+        for (WisChapter chapter : chapters) {
+            if (chapter.getTypes().contains(type)) {
                 filteredChapters.add(chapter.filter(type));
             }
         }
@@ -104,7 +104,7 @@ public class WisSection {
     public void setReverseLinks(WisHierarchy hierarchy) {
         this.parent = hierarchy;
 
-        for( WisChapter chapter : chapters)
+        for (WisChapter chapter : chapters)
             chapter.setReverseLinks(this);
     }
 

@@ -2,24 +2,18 @@ package ru.kjd.jwis.jwisfx.gui;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import ru.kjd.jwis.core.ResourceManager;
 import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisSection;
 
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
-
 public class WisHierarchyTreeView extends TreeView {
     TreeItem root;
+    WisHierarchy hierarchy;
 
     public WisHierarchyTreeView(WisHierarchy hierarchy) {
         root = new TreeItem("hide me sucker");
         doRoot();
-
-        for(WisSection section : hierarchy.getSections()){
-            root.getChildren().add(new WisTreeSectionItem(section));
-        }
+        setHierarchy(hierarchy);
     }
 
     public WisHierarchyTreeView(WisSection section) {
@@ -32,9 +26,18 @@ public class WisHierarchyTreeView extends TreeView {
         doRoot();
     }
 
-    private void doRoot(){
+    private void doRoot() {
         setRoot(root);
         setShowRoot(false);
         root.setExpanded(true);
+    }
+
+    public void setHierarchy(WisHierarchy hierarchy) {
+        this.hierarchy = hierarchy;
+
+        root.getChildren().clear();
+        for (WisSection section : hierarchy.getSections()) {
+            root.getChildren().add(new WisTreeSectionItem(section));
+        }
     }
 }

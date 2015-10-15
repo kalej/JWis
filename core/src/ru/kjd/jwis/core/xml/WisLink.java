@@ -3,7 +3,7 @@ package ru.kjd.jwis.core.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="link")
+@XmlRootElement(name = "link")
 public class WisLink {
     private int linkId;
     private String dest;

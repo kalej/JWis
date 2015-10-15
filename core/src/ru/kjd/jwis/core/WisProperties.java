@@ -4,12 +4,11 @@ import ru.kjd.jwis.core.enums.Language;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
-import java.util.Locale;
 import java.util.Properties;
+
 public class WisProperties extends Properties {
     public static final String PROG_NAME = "JWis 0.1 beta";
     private static final String PROP_FILE_NAME = "wis.properties";

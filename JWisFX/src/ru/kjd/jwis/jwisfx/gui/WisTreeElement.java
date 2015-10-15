@@ -27,14 +27,14 @@ public class WisTreeElement extends TreeItem {
 
         List<WisSubElement> subElements = itemElement.getSubElements();
 
-        if ( subElements != null && subElements.size() > 0 )
-            for( WisSubElement subElement : subElements ){
+        if (subElements != null && subElements.size() > 0)
+            for (WisSubElement subElement : subElements) {
                 getChildren().add(new WisTreeSubElement(subElement));
             }
 
         WisDiagnostic diagnostic = itemElement.getDiagnostic();
-        if ( diagnostic != null && diagnostic.getFcodes().size() > 0 )
-            for( String fcode : diagnostic.getFcodes() ){
+        if (diagnostic != null && diagnostic.getFcodes().size() > 0)
+            for (String fcode : diagnostic.getFcodes()) {
                 getChildren().add(new WisTreeFcode(fcode));
             }
     }

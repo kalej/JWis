@@ -67,10 +67,10 @@ public class WisChapter {
     }
 
     public List<Integer> getDocuments() {
-        if ( documents == null ){
+        if (documents == null) {
             documents = new ArrayList<>();
 
-            for( WisItem item : items ){
+            for (WisItem item : items) {
                 documents.addAll(item.getDocuments());
             }
         }
@@ -78,13 +78,13 @@ public class WisChapter {
     }
 
     public void scanMap(Map<Integer, String> docMap) {
-        for( WisItem item : items )
+        for (WisItem item : items)
             item.scanMap(docMap);
     }
 
-    public Set<WisItemType> getTypes(){
+    public Set<WisItemType> getTypes() {
         Set<WisItemType> set = new HashSet<>();
-        for( WisItem item : items ){
+        for (WisItem item : items) {
             set.add(item.getType());
         }
         return set;
@@ -92,8 +92,8 @@ public class WisChapter {
 
     public WisChapter filter(WisItemType type) {
         List<WisItem> filteredItems = new ArrayList<>();
-        for ( WisItem item : items ){
-            if ( item.getType().equals(type) ){
+        for (WisItem item : items) {
+            if (item.getType().equals(type)) {
                 filteredItems.add(item);
             }
         }
@@ -103,7 +103,7 @@ public class WisChapter {
     public void setReverseLinks(WisSection wisSection) {
         this.parent = wisSection;
 
-        for ( WisItem item : items )
+        for (WisItem item : items)
             item.setReverseLinks(this);
     }
 }

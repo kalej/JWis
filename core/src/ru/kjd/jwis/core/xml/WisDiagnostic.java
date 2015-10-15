@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement(name="diagnostic")
+@XmlRootElement(name = "diagnostic")
 public class WisDiagnostic {
     private String step;
     private String entry;

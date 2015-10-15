@@ -1,16 +1,12 @@
 package ru.kjd.jwis.jwisfx.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import ru.kjd.jwis.core.ResourceManager;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class WisImgView extends ImageView {
@@ -20,21 +16,6 @@ public class WisImgView extends ImageView {
     WisHierarchy hierarchy;
     ResourceManager resourceManager;
     String imgName;
-
-    EventHandler<MouseEvent> previewImageListener = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent){
-            removeEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
-
-            try {
-                setImage(resourceManager.getImage(hierarchy, imgName));
-                addEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
-            } catch (IOException e) {
-                setVisible(false);
-            }
-        }
-    };
-
     EventHandler<MouseEvent> expandedImageListener = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
@@ -43,6 +24,19 @@ public class WisImgView extends ImageView {
             try {
                 setImage(resourceManager.getImagePreview(hierarchy, imgName, maxWidth * previewRatio, maxHeight * previewRatio));
                 addEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
+            } catch (IOException e) {
+                setVisible(false);
+            }
+        }
+    };
+    EventHandler<MouseEvent> previewImageListener = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            removeEventHandler(MouseEvent.MOUSE_CLICKED, previewImageListener);
+
+            try {
+                setImage(resourceManager.getImage(hierarchy, imgName));
+                addEventHandler(MouseEvent.MOUSE_CLICKED, expandedImageListener);
             } catch (IOException e) {
                 setVisible(false);
             }

@@ -17,6 +17,7 @@ public class WisItemTabPane extends TabPane {
     private WisHierarchy wisHierarchy;
     private ResourceManager resourceManager;
     private WisChapter currentChapter;
+    private WisItemElement currentElement;
 
     private Map<WisItemType, Tab> tabs = new HashMap<>();
 
@@ -24,8 +25,9 @@ public class WisItemTabPane extends TabPane {
         this.wisHierarchy = wisHierarchy;
         this.resourceManager = resourceManager;
 
-        for(WisItemType itemType : WisItemType.values()){
+        for (WisItemType itemType : WisItemType.values()) {
             Tab tab = new Tab();
+            tab.setClosable(false);
             tab.setDisable(true);
             tab.setText(itemType.name());
             tabs.put(itemType, tab);
@@ -36,15 +38,15 @@ public class WisItemTabPane extends TabPane {
             @Override
             public void changed(ObservableValue<? extends Tab> observableValue, Tab tab, Tab t1) {
                 WisItemType type = WisItemType.UNKNOWN;
-                for( WisItemType itemType : tabs.keySet()){
-                    if ( tabs.get(itemType) == tab ){
+                for (WisItemType itemType : tabs.keySet()) {
+                    if (tabs.get(itemType) == tab) {
                         type = itemType;
                         break;
                     }
                 }
 
-                for ( WisItem item : currentChapter.getItems()){
-                    if ( item.getType() == type ){
+                for (WisItem item : currentChapter.getItems()) {
+                    if (item.getType() == type) {
                         tab.setContent(new WisItemTreeView(item));
                         break;
                     }
@@ -58,26 +60,38 @@ public class WisItemTabPane extends TabPane {
         this.currentChapter = chapter;
         clearTabs();
 
-        for(WisItem item : chapter.getItems()){
+        for (WisItem item : chapter.getItems()) {
             Tab tab = tabs.get(item.getType());
             tab.setDisable(false);
             tab.setContent(new WisItemTreeView(item));
 
-            if ( !hasActive ){
+            if (!hasActive) {
                 getSelectionModel().select(tab);
                 hasActive = true;
             }
         }
     }
 
-    private void clearTabs(){
-        for(Tab tab : tabs.values()) {
+    public void clearTabs() {
+        for (Tab tab : tabs.values()) {
             tab.setDisable(true);
             tab.setContent(null);
         }
     }
 
+    public int getDestId(int linkId) {
+        if (currentElement != null) {
+            for (WisLink link : currentElement.getLinks()) {
+                if (link.getLinkId() == linkId)
+                    return Integer.parseInt(link.getDest());
+            }
+        }
+
+        return -1;
+    }
+
     public void show(WisItemElement itemElement) {
+        currentElement = itemElement;
         Tab tab = getSelectionModel().getSelectedItem();
         tab.setContent(null);
         tab.setContent(new WisDocPane(wisHierarchy, itemElement, resourceManager));
@@ -93,9 +107,9 @@ public class WisItemTabPane extends TabPane {
         Set<WisItemType> typeSet = chapter.getTypes();
         WisItemType[] types = typeSet.toArray(new WisItemType[typeSet.size()]);
         Arrays.sort(types);
-        for ( WisItemType type : types ){
+        for (WisItemType type : types) {
             Tab tab = new Tab();
-            if ( selType == type )
+            if (selType == type)
                 getSelectionModel().select(tab);
 
             tab.setText(type.name());
@@ -112,7 +126,7 @@ public class WisItemTabPane extends TabPane {
         Set<WisItemType> typeSet = section.getTypes();
         WisItemType[] types = typeSet.toArray(new WisItemType[typeSet.size()]);
         Arrays.sort(types);
-        for ( WisItemType type : types ){
+        for (WisItemType type : types) {
             Tab tab = new Tab();
             tab.setText(type.name());
 
@@ -126,5 +140,22 @@ public class WisItemTabPane extends TabPane {
         Tab tab = getSelectionModel().getSelectedItem();
         tab.setContent(null);
         tab.setContent(new WisDocPane(wisHierarchy, subElement, resourceManager));
+    }
+
+    public int getDocId(int dest) {
+        for (WisItemElement itemElement : currentElement.getParent().getElements()) {
+            if (itemElement.getId() == dest)
+                return itemElement.getDocId();
+        }
+
+        return -1;
+    }
+
+    public void forward() {
+
+    }
+
+    public void backward() {
+
     }
 }

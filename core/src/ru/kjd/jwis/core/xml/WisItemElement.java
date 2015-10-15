@@ -23,7 +23,7 @@ public class WisItemElement {
         return id;
     }
 
-    @XmlAttribute(name="id")
+    @XmlAttribute(name = "id")
     public void setId(int id) {
         this.id = id;
     }
@@ -32,7 +32,7 @@ public class WisItemElement {
         return docId;
     }
 
-    @XmlAttribute(name="docid")
+    @XmlAttribute(name = "docid")
     public void setDocId(int docId) {
         this.docId = docId;
     }
@@ -41,7 +41,7 @@ public class WisItemElement {
         return compId;
     }
 
-    @XmlAttribute(name="compid")
+    @XmlAttribute(name = "compid")
     public void setCompId(int compId) {
         this.compId = compId;
     }
@@ -50,7 +50,7 @@ public class WisItemElement {
         return modified;
     }
 
-    @XmlAttribute(name="modified")
+    @XmlAttribute(name = "modified")
     public void setModified(String modified) {
         this.modified = modified;
     }
@@ -59,7 +59,7 @@ public class WisItemElement {
         return instId;
     }
 
-    @XmlAttribute(name="instid")
+    @XmlAttribute(name = "instid")
     public void setInstId(int instId) {
         this.instId = instId;
     }
@@ -77,7 +77,7 @@ public class WisItemElement {
         return subElements;
     }
 
-    @XmlElement(name="sisub")
+    @XmlElement(name = "sisub")
     public void setSubElements(List<WisSubElement> subElements) {
         this.subElements = subElements;
     }
@@ -86,7 +86,7 @@ public class WisItemElement {
         return links;
     }
 
-    @XmlElement(name="link")
+    @XmlElement(name = "link")
     public void setLinks(List<WisLink> links) {
         this.links = links;
     }
@@ -107,8 +107,8 @@ public class WisItemElement {
     public void setReverseLinks(WisItem wisItem) {
         this.parent = wisItem;
 
-        if ( subElements != null && !subElements.isEmpty() )
-            for (WisSubElement subElement : subElements )
+        if (subElements != null && !subElements.isEmpty())
+            for (WisSubElement subElement : subElements)
                 subElement.setParent(this);
     }
 

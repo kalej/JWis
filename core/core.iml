@@ -21,6 +21,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="module" module-name="JCGM-image" exported="" />
   </component>
 </module>

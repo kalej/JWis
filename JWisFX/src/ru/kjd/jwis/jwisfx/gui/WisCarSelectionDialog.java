@@ -6,15 +6,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import ru.kjd.jwis.core.ResourceManager;
-
-import ru.kjd.jwis.core.WisPaths;
 import ru.kjd.jwis.core.utils.StringExtractor;
 
 import java.util.List;
@@ -24,7 +22,7 @@ public class WisCarSelectionDialog extends Stage {
     private String model;
     private String year;
 
-    public WisCarSelectionDialog(Stage owner, final ResourceManager resourceManager){
+    public WisCarSelectionDialog(Stage owner, final ResourceManager resourceManager) {
         super();
         initOwner(owner);
 
@@ -70,8 +68,7 @@ public class WisCarSelectionDialog extends Stage {
             public void handle(ActionEvent event) {
                 List<String> years = resourceManager.getXmls(modelCombo.getValue());
 
-                if ( years.size() <= 0 )
-                {
+                if (years.size() <= 0) {
                     yearCombo.setDisable(true);
                     okButton.setDisable(true);
                     return;
@@ -80,7 +77,7 @@ public class WisCarSelectionDialog extends Stage {
                 yearCombo.setDisable(false);
                 yearCombo.getItems().clear();
 
-                for ( String year : years )
+                for (String year : years)
                     yearCombo.getItems().add(StringExtractor.extractYear(year));
             }
         });
@@ -89,7 +86,7 @@ public class WisCarSelectionDialog extends Stage {
             @Override
             public void handle(ActionEvent actionEvent) {
                 String year = yearCombo.getValue();
-                if ( year == null || year.isEmpty()  ){
+                if (year == null || year.isEmpty()) {
                     okButton.setDisable(true);
                 }
 

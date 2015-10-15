@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="sisub")
+@XmlRootElement(name = "sisub")
 public class WisSubElement {
     private int id;
     private int siSubId;
@@ -15,7 +15,7 @@ public class WisSubElement {
         return id;
     }
 
-    @XmlAttribute(name ="id")
+    @XmlAttribute(name = "id")
     public void setId(int id) {
         this.id = id;
     }
@@ -24,7 +24,7 @@ public class WisSubElement {
         return siSubId;
     }
 
-    @XmlAttribute(name ="sisubid")
+    @XmlAttribute(name = "sisubid")
     public void setSiSubId(int siSubId) {
         this.siSubId = siSubId;
     }
@@ -38,11 +38,11 @@ public class WisSubElement {
         this.name = name;
     }
 
-    public void setParent(WisItemElement parent) {
-        this.parent = parent;
-    }
-
     public WisItemElement getParent() {
         return parent;
+    }
+
+    public void setParent(WisItemElement parent) {
+        this.parent = parent;
     }
 }

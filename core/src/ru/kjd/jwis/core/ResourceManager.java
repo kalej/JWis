@@ -1,9 +1,9 @@
 package ru.kjd.jwis.core;
 
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
-import net.sf.jcgm.core.CGM;
-import net.sf.jcgm.core.CGMDisplay;
+import net.sf.jcgm.core.FontWrapper;
 import ru.kjd.jwis.core.utils.DirectoryScanner;
 import ru.kjd.jwis.core.xml.*;
 
@@ -22,10 +22,9 @@ public class ResourceManager {
     private static final String YEAR_REGEX = "[0-9]{4}";
     private static final String XML_EXT_REGEX = "\\.xml$";
     private static final String IMAGE_REGEX = "^images[0-9]{1,2}\\.zip";
+    private static Logger log = Logger.getLogger(ResourceManager.class.getName());
     private SortedMap<String, Pair<String, String>> imageToArchive;
     private SortedMap<String, List<String>> modelToXmls = new TreeMap<>();
-
-    private static Logger log = Logger.getLogger(ResourceManager.class.getName());
     private WisProperties properties;
 
     public ResourceManager(WisProperties properties) {
@@ -34,15 +33,15 @@ public class ResourceManager {
         findResources();
     }
 
-    public Set<String> getModelList(){
+    public Set<String> getModelList() {
         return modelToXmls.keySet();
     }
 
-    public List<String> getXmls(String model){
+    public List<String> getXmls(String model) {
         return modelToXmls.get(model);
     }
 
-    private String getYearRegex(String model){
+    private String getYearRegex(String model) {
         return model
                 .replace("(", "\\(")
                 .replace(")", "\\)")
@@ -51,26 +50,26 @@ public class ResourceManager {
                 .concat(XML_EXT_REGEX);
     }
 
-    private void findResources(){
+    private void findResources() {
         List<String> models = DirectoryScanner.getFilenames(WisPaths.ROOT, MODEL_REGEX + "$");
-        for( String model : models ){
+        for (String model : models) {
             String yearRegex = getYearRegex(model);
             List<String> years = DirectoryScanner.getFilenames(WisPaths.getModelRoot(model), yearRegex);
-            if ( years.size() > 0 ){
+            if (years.size() > 0) {
                 Collections.sort(years);
                 modelToXmls.put(model, years);
             }
         }
     }
 
-    private SortedMap<String, Pair<String, String>> scanImgArchives(String model){
+    private SortedMap<String, Pair<String, String>> scanImgArchives(String model) {
         SortedMap<String, Pair<String, String>> map = new TreeMap<>();
         File[] modelImgFiles = DirectoryScanner.getFiles(WisPaths.getModelRoot(model), IMAGE_REGEX);
-        for ( File file : modelImgFiles ){
-            try{
+        for (File file : modelImgFiles) {
+            try {
                 ZipFile zipFile = new ZipFile(file);
                 Enumeration<? extends ZipEntry> entries = zipFile.entries();
-                while( entries.hasMoreElements() ){
+                while (entries.hasMoreElements()) {
                     String entryname = entries.nextElement().getName();
                     Pair<String, String> extArch = new Pair(entryname.substring(entryname.indexOf('.')), file.getName());
                     map.put(entryname.substring(0, entryname.indexOf('.')), extArch);
@@ -91,7 +90,7 @@ public class ResourceManager {
         BufferedReader brin = new BufferedReader(isr);
         StringBuilder sb = new StringBuilder();
         String part;
-        while( (part = brin.readLine()) != null ) {
+        while ((part = brin.readLine()) != null) {
             sb.append(part.trim());
         }
         String unescaped = sb.toString().replaceAll("&nbsp;", "\u00A0"); //StringEscapeUtils.unescapeHtml(sb.toString());
@@ -128,19 +127,11 @@ public class ResourceManager {
     private int findLinkedDoc(WisHierarchy hierarchy, int linkId) throws IOException {
         for (WisSection section : hierarchy.getSections())
             for (WisChapter chapter : section.getChapters())
-                for(WisItem item : chapter.getItems())
-                    for(WisItemElement itemElement : item.getElements())
-                        if ( itemElement.getId() == linkId )
+                for (WisItem item : chapter.getItems())
+                    for (WisItemElement itemElement : item.getElements())
+                        if (itemElement.getId() == linkId)
                             itemElement.getDocId();
         return 0;
-    }
-
-    private static class WisXmlEventHandler implements ValidationEventHandler {
-        @Override
-        public boolean handleEvent(ValidationEvent event) {
-            log.info(event.getMessage());
-            return false;
-        }
     }
 
     public InputStream getDocInputStream(WisHierarchy hierarchy, int docId) throws IOException {
@@ -152,7 +143,7 @@ public class ResourceManager {
 
     public InputStream getImgInputStream(WisHierarchy hierarchy, String imgName) throws IOException {
         String fileName;
-        if ( imgName.charAt(0) == 'i' ) {
+        if (imgName.charAt(0) == 'i') {
             fileName = imgName.substring(1);
         } else {
             fileName = imgName;
@@ -160,7 +151,7 @@ public class ResourceManager {
 
         Pair<String, String> extArch = imageToArchive.get(fileName);
 
-        if ( extArch == null ){
+        if (extArch == null) {
             log.info("Image " + fileName + " not found");
             return null;
         }
@@ -172,7 +163,7 @@ public class ResourceManager {
         ZipFile zipFile = new ZipFile(archive);
         ZipEntry entry = zipFile.getEntry(fileName + extArch.getKey());
 
-        if ( extArch.getKey().endsWith("cgm"))
+        if (extArch.getKey().endsWith("cgm"))
             return unpackImgFile(zipFile.getInputStream(entry));
         else
             return zipFile.getInputStream(entry);
@@ -184,17 +175,46 @@ public class ResourceManager {
 
         int len;
         byte[] buffer = new byte[1024];
-        while( (len = inputStream.read(buffer)) > 0){
+        while ((len = inputStream.read(buffer)) > 0) {
             fos.write(buffer, 0, len);
         }
         fos.close();
 
-        BufferedImage image = ImageIO.read(tmpCgm);
+        /*
+        CGM cgm = new CGM(tmpCgm);
+        CGMDisplay display = new CGMDisplay(cgm);
+        Dimension dim = cgm.getSize();
+        int width = (int)Math.round(dim.getWidth());
+        int height = (int)Math.round(dim.getHeight());
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img.createGraphics();
+        display.setTransparent(false);
+        display.paint(g);
+        //g.dispose();
+        */
+        BufferedImage img = ImageIO.read(tmpCgm);
         File tmpPng = File.createTempFile("img", ".png");
-        ImageIO.write(image, "PNG", tmpPng);
+        ImageIO.write(img, "PNG", tmpPng);
 
         log.info("Unpacked to " + tmpCgm.getName());
         log.info("Converted to " + tmpPng.getName());
         return new FileInputStream(tmpPng);
+    }
+
+    private FontWrapper getFontWrapper() {
+        Font def = Font.getDefault();
+        String name = def.getName();
+        int size = (int) Math.round(def.getSize());
+        String style = def.getStyle();
+
+        return new FontWrapper(new java.awt.Font(name, 0, size), false);
+    }
+
+    private static class WisXmlEventHandler implements ValidationEventHandler {
+        @Override
+        public boolean handleEvent(ValidationEvent event) {
+            log.info(event.getMessage());
+            return false;
+        }
     }
 }
