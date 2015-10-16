@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane id="root" fx:controller="ru.kjd.jwis.jwisfx.gui.WisDialogController"
+          vgap="10" hgap="10" xmlns:fx="http://javafx.com/fxml">
+    <Label fx:id="modelLabel" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <ComboBox fx:id="modelCombo" GridPane.columnIndex="0" GridPane.rowIndex="1"
+            onAction="#onModelChanged"/>
+    <Label fx:id="yearLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <ComboBox fx:id="yearCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"
+            onAction="#onYearChanged"/>
+    <Button fx:id="commitButton" GridPane.columnIndex="1" GridPane.rowIndex="2"
+            onAction="#commit"/>
+</GridPane>

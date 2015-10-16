@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import ru.kjd.jwis.core.*;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public class JWisFX extends Application {
@@ -67,9 +69,12 @@ public class JWisFX extends Application {
         wisHierarchy = resourceManager.loadXMLHierarchy(myDialog.getModel(), myDialog.getYear());
 
         BorderPane borderPane = new BorderPane();
-        Button changeCar = new Button("Change car");
-        final Button forward = new Button("Forward");
-        Button backward = new Button("Backward");
+        Button changeCar = new Button();
+        changeCar.setGraphic(new ImageView(Paths.get("main", "change.png").toString()));
+        final Button forward = new Button();
+        forward.setGraphic(new ImageView(Paths.get("main", "forwd.png").toString()));
+        Button backward = new Button();
+        backward.setGraphic(new ImageView(Paths.get("main", "backwd.png").toString()));
 
         HBox buttons = new HBox();
         buttons.setSpacing(10);
@@ -110,7 +115,7 @@ public class JWisFX extends Application {
                     case "wisdoc":
                         return new WisDocStreamHandler(resourceManager, wisHierarchy);
                     default:
-                        System.err.println("Protocol: " + protocol);
+                        log.info("Protocol: " + protocol);
                         return null;
                 }
             }

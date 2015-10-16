@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jh.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aida.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jas-plotter.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/openide-lookup.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jdom.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

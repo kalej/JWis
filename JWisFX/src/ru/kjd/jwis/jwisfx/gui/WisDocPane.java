@@ -46,10 +46,6 @@ public class WisDocPane extends StackPane {
             public void changed(ObservableValue<? extends String> observableValue, final String s, final String t1) {
                 log.info("Old url: " + s);
                 log.info("New url: " + t1);
-                if (t1.startsWith(WIS_IMG_PREFIX)) {
-                    String content = "<html><body><img src=\"" + t1 + "\"/></body></html>";
-                }
-
             }
         });
     }

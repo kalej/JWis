@@ -10,9 +10,14 @@ public class WisHierarchyTreeView extends TreeView {
     TreeItem root;
     WisHierarchy hierarchy;
 
-    public WisHierarchyTreeView(WisHierarchy hierarchy) {
+    public WisHierarchyTreeView(){
         root = new TreeItem("hide me sucker");
         doRoot();
+
+    }
+
+    public WisHierarchyTreeView(WisHierarchy hierarchy) {
+        this();
         setHierarchy(hierarchy);
     }
 

@@ -5,6 +5,7 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 import net.sf.jcgm.core.FontWrapper;
 import ru.kjd.jwis.core.utils.DirectoryScanner;
+import ru.kjd.jwis.core.utils.StringExtractor;
 import ru.kjd.jwis.core.xml.*;
 
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 public class ResourceManager {
+    private static ResourceManager instance = null;
     private static final String MODEL_REGEX = "^9-?[0-9]{1,3}x?( \\([0-9]{3,4}\\))?";
     private static final String YEAR_REGEX = "[0-9]{4}";
     private static final String XML_EXT_REGEX = "\\.xml$";
@@ -26,6 +28,14 @@ public class ResourceManager {
     private SortedMap<String, Pair<String, String>> imageToArchive;
     private SortedMap<String, List<String>> modelToXmls = new TreeMap<>();
     private WisProperties properties;
+
+    static {
+        instance = new ResourceManager(new WisProperties());
+    }
+
+    public static ResourceManager getInstance() {
+        return instance;
+    }
 
     public ResourceManager(WisProperties properties) {
         this.properties = properties;
@@ -208,6 +218,15 @@ public class ResourceManager {
         String style = def.getStyle();
 
         return new FontWrapper(new java.awt.Font(name, 0, size), false);
+    }
+
+    public List<String> getYears(String model) {
+        List<String> xmls = getXmls(model);
+        List<String> result = new ArrayList<>();
+        for( String xml : xmls ){
+            result.add(StringExtractor.extractYear(xml));
+        }
+        return result;
     }
 
     private static class WisXmlEventHandler implements ValidationEventHandler {

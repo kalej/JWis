@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import ru.kjd.jwis.core.ResourceManager;
 import ru.kjd.jwis.core.enums.WisItemType;
 import ru.kjd.jwis.core.xml.*;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class WisItemTabPane extends TabPane {
     private WisHierarchy wisHierarchy;
@@ -21,6 +23,20 @@ public class WisItemTabPane extends TabPane {
 
     private Map<WisItemType, Tab> tabs = new HashMap<>();
 
+    static Logger log = Logger.getLogger(WisItemTabPane.class.getName());
+
+    public WisItemTabPane(){
+        for (WisItemType itemType : WisItemType.values()) {
+            Tab tab = new Tab();
+            tab.setClosable(false);
+            tab.setDisable(true);
+            //tab.setText(itemType.name());
+            tab.setGraphic(new ImageView(itemType.getPicture()));
+            tabs.put(itemType, tab);
+            getTabs().add(tab);
+        }
+    }
+
     public WisItemTabPane(WisHierarchy wisHierarchy, ResourceManager resourceManager) {
         this.wisHierarchy = wisHierarchy;
         this.resourceManager = resourceManager;
@@ -29,7 +45,8 @@ public class WisItemTabPane extends TabPane {
             Tab tab = new Tab();
             tab.setClosable(false);
             tab.setDisable(true);
-            tab.setText(itemType.name());
+            //tab.setText(itemType.name());
+            tab.setGraphic(new ImageView(itemType.getPicture()));
             tabs.put(itemType, tab);
             getTabs().add(tab);
         }
@@ -37,7 +54,7 @@ public class WisItemTabPane extends TabPane {
         getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observableValue, Tab tab, Tab t1) {
-                WisItemType type = WisItemType.UNKNOWN;
+                WisItemType type = null;
                 for (WisItemType itemType : tabs.keySet()) {
                     if (tabs.get(itemType) == tab) {
                         type = itemType;
@@ -61,6 +78,7 @@ public class WisItemTabPane extends TabPane {
         clearTabs();
 
         for (WisItem item : chapter.getItems()) {
+            log.info("Item: " + item.getNum() + " -> " + item.getType() + " -> " + item.getType().getPicture());
             Tab tab = tabs.get(item.getType());
             tab.setDisable(false);
             tab.setContent(new WisItemTreeView(item));
