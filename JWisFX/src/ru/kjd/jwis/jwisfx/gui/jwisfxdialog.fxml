@@ -4,7 +4,7 @@
 <?import javafx.scene.text.*?>
 
 <?import javafx.geometry.Insets?>
-<GridPane id="root"
+<GridPane id="root" fx:controller="ru.kjd.jwis.jwisfx.gui.WisDialogController"
           vgap="10" hgap="10" xmlns:fx="http://javafx.com/fxml">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
@@ -18,4 +18,4 @@
             prefWidth="160"/>
     <Button fx:id="commitButton" GridPane.columnIndex="1" GridPane.rowIndex="2"
             prefWidth="160"/>
-</GridPane>l
+</GridPane>

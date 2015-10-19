@@ -4,6 +4,9 @@ import ru.kjd.jwis.core.enums.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 /**
  * Created by anonymous on 10/19/15.
@@ -214,13 +217,15 @@ public class WisStrings {
             Class c = WisStrings.class;
             ClassLoader cl = c.getClassLoader();
             InputStream is = cl.getResourceAsStream("strings/" + language.getShortName() + ".string.properties");
-            properties.load(is);
+            InputStreamReader isr = new InputStreamReader(is, Charset.forName("UTF-8"));
+            properties.load(isr);
         } catch (IOException e) {
 
         }
     }
 
     public static String get(String name){
+
         return properties.getProperty(name, name);
     }
 

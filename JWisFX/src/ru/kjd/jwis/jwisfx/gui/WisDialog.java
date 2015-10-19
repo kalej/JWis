@@ -1,4 +1,4 @@
-package ru.kjd.jwis.jwisfx;
+package ru.kjd.jwis.jwisfx.gui;
 
 import com.sun.javafx.tk.Toolkit;
 import javafx.fxml.FXML;
@@ -10,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Pair;
+import ru.kjd.jwis.core.WisStrings;
 
 import java.io.IOException;
 
@@ -24,8 +25,8 @@ public class WisDialog extends Stage {
 
     public WisDialog(Parent parent){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("jwisfxdialog.fxml"));
-        fxmlLoader.setController(this);
 
+        setTitle(WisStrings.get(WisStrings.STRING_CHOOSE_MODEL_AND_YEAR));
         initModality(Modality.APPLICATION_MODAL);
         //initStyle(StageStyle.UNDECORATED);
 

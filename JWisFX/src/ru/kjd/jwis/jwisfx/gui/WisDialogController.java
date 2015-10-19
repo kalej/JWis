@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import ru.kjd.jwis.core.ResourceManager;
+import ru.kjd.jwis.core.WisStrings;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,8 +36,9 @@ public class WisDialogController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        modelLabel.setText("string.model");
-        yearLabel.setText("string.year");
+        modelLabel.setText(WisStrings.get(WisStrings.STRING_MODEL));
+        yearLabel.setText(WisStrings.get(WisStrings.STRING_YEAR));
+        commitButton.setText(WisStrings.get(WisStrings.STRING_OK));
         yearCombo.setDisable(true);
         commitButton.setDisable(true);
         modelCombo.getItems().addAll(ResourceManager.getInstance().getModelList());
