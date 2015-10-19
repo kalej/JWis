@@ -2,6 +2,7 @@ package ru.kjd.jwis.jwisfx;/**
  * Created by anonymous on 10/16/15.
  */
 
+import com.sun.javafx.tk.Toolkit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 import java.io.IOException;
 
@@ -26,17 +28,9 @@ public class JWis extends Application {
         stage.setScene(scene);
         stage.show();
 
-        showWindow();
-    }
+        WisDialog dialog = new WisDialog(root);
+        Pair<String, String> selection = dialog.getResult();
 
-    public void showWindow() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("jwisfxdialog.fxml"));
-        Parent root = (Parent)loader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(scene);
-        stage.showAndWait();
+
     }
 }

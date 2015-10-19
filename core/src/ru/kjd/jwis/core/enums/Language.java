@@ -14,7 +14,8 @@ public enum Language {
     SEYCHELLES("sc"),
     SWEDEN("se"),
     TURKEY("tc"),
-    THAILAND("th");
+    THAILAND("th"),
+    USA("us");
 
     private final String shortName;
 
