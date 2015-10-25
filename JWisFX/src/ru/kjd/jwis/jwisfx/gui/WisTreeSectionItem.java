@@ -1,5 +1,9 @@
 package ru.kjd.jwis.jwisfx.gui;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisSection;

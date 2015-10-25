@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <?import javafx.geometry.Insets?>
-<GridPane id="root" fx:controller="ru.kjd.jwis.jwisfx.gui.WisDialogController"
-          vgap="10" hgap="10" xmlns:fx="http://javafx.com/fxml">
+
+<DialogPane id="root" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kjd.jwis.jwisfx.gui.WisDialogController"
+        fx:id="dialogPane">
+    <content>
+<GridPane  xmlns="http://javafx.com/javafx/8" hgap="10" vgap="10">
     <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
+        <Insets bottom="10" left="10" right="10" top="10" />
     </padding>
-    <Label fx:id="modelLabel" GridPane.columnIndex="0" GridPane.rowIndex="0"
-            />
-    <ComboBox fx:id="modelCombo" GridPane.columnIndex="0" GridPane.rowIndex="1"
-            prefWidth="160"/>
-    <Label fx:id="yearLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-    <ComboBox fx:id="yearCombo" GridPane.columnIndex="1" GridPane.rowIndex="1"
-            prefWidth="160"/>
-    <Button fx:id="commitButton" GridPane.columnIndex="1" GridPane.rowIndex="2"
-            prefWidth="160"/>
+   <children>
+       <Label fx:id="modelLabel" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+       <ComboBox fx:id="modelCombo" onAction="#onModelChanged" prefWidth="160" GridPane.columnIndex="0" GridPane.rowIndex="1">
+
+       </ComboBox>
+       <Label fx:id="yearLabel" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+       <ComboBox fx:id="yearCombo" disable="true" onAction="#onYearChanged" prefWidth="160" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>
+    </content>
+</DialogPane>

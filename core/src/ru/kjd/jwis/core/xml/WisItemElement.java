@@ -18,6 +18,26 @@ public class WisItemElement {
     private List<WisLink> links;
     private WisDiagnostic diagnostic;
     private WisItem parent;
+    private String type;
+    private String markets;
+
+    public String getType() {
+        return type;
+    }
+
+    @XmlAttribute(name = "type")
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMarkets() {
+        return markets;
+    }
+
+    @XmlAttribute(name = "markets")
+    public void setMarkets(String markets) {
+        this.markets = markets;
+    }
 
     public int getId() {
         return id;
@@ -114,5 +134,28 @@ public class WisItemElement {
 
     public WisItem getParent() {
         return parent;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("id: ").append(id);
+        sb.append("; type: ").append(type);
+        sb.append("; docId: ").append(docId);
+        sb.append("; compId: ").append(compId);
+        sb.append("; instId:").append(instId);
+
+        return sb.toString();
+    }
+
+    public boolean isApplicable(String market){
+        if ( markets == null || markets.isEmpty() )
+            return true;
+
+        for( String mkt : markets.split(" ") ){
+            if ( market.equals(mkt ) )
+                return true;
+        }
+        return false;
     }
 }

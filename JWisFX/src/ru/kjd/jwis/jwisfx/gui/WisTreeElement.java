@@ -3,6 +3,7 @@ package ru.kjd.jwis.jwisfx.gui;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import ru.kjd.jwis.core.xml.WisDiagnostic;
 import ru.kjd.jwis.core.xml.WisItemElement;
@@ -18,6 +19,14 @@ public class WisTreeElement extends TreeItem {
         super(itemElement.getName());
         this.itemElement = itemElement;
 
+        if ( "bltn-si".equals(itemElement.getType()) ){
+            setGraphic(new ImageView("/bulletins/06.png"));
+        } else if ( "bltn-mi".equals(itemElement.getType()) ){
+            setGraphic(new ImageView("/bulletins/08.png"));
+        } else if ( "bltn-tn".equals(itemElement.getType()) ){
+            setGraphic(new ImageView("/bulletins/07.png"));
+        }
+        /*
         addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
             @Override
             public void handle(Event event) {
@@ -37,6 +46,7 @@ public class WisTreeElement extends TreeItem {
             for (String fcode : diagnostic.getFcodes()) {
                 getChildren().add(new WisTreeFcode(fcode));
             }
+            */
     }
 
     public WisItemElement getItemElement() {

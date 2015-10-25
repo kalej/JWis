@@ -10,15 +10,17 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 
 public enum WisItemType {
-    WIRING(10, "schematic.png"),
-    REPLACEMENT(8, "repair.png"),
-    TECHNICAL(3, "technical.png"),
-    DESCRIPTION(9, "description.png"),
-    TROUBLESHOOTING(6, "troubleshoot.png"),
-    BULLETINS(5, "bulletin.png"),
-    LOCATION(4, "location.png"),
-    SERVICE(7, "service.png"),
-    TOOLS(11, "service.png");
+    TECH_DATA(3, "00.png"),
+    SPECIAL_TOOLS(11, "01.png"),
+    TECH_DESC(9, "02.png"),
+    TROUBLESHOOT(6, "03.png"),
+    FAULT_CODES(0, "04.png"),
+    SYMPTOMS(1, "05.png"),
+    REPLACEMENT(8, "06.png"),
+    LOCATION(4, "07.png"),
+    ELECTRICS(10, "08.png"),
+    BULLETINS(5, "09.png"),
+    SERVICE(7, "10.png");
 
     private int value;
     private String picture;

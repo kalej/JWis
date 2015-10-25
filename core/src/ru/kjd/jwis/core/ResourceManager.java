@@ -29,11 +29,9 @@ public class ResourceManager {
     private SortedMap<String, List<String>> modelToXmls = new TreeMap<>();
     private WisProperties properties;
 
-    static {
-        instance = new ResourceManager(new WisProperties());
-    }
-
     public static ResourceManager getInstance() {
+        if ( instance == null )
+            instance = new ResourceManager(new WisProperties());
         return instance;
     }
 

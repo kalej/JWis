@@ -5,6 +5,7 @@ import javafx.scene.control.TreeView;
 import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisSection;
+import sun.reflect.generics.tree.Tree;
 
 public class WisHierarchyTreeView extends TreeView {
     TreeItem root;
@@ -42,6 +43,17 @@ public class WisHierarchyTreeView extends TreeView {
 
         root.getChildren().clear();
         for (WisSection section : hierarchy.getSections()) {
+            root.getChildren().add(new WisTreeSectionItem(section));
+        }
+    }
+
+    public static void makeTreeView(TreeView treeView, WisHierarchy wisHierarchy){
+        TreeItem root = new TreeItem("hide me");
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        root.setExpanded(true);
+
+        for (WisSection section : wisHierarchy.getSections()) {
             root.getChildren().add(new WisTreeSectionItem(section));
         }
     }
