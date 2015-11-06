@@ -126,7 +126,7 @@ public abstract class TextCommand extends Command {
 			screenResolution = Toolkit.getDefaultToolkit()
 					.getScreenResolution();
 		}
-		double height = fontMetrics.getAscent() * 72 / screenResolution;
+		double height = fontMetrics.getAscent() * 72d / screenResolution;
 
 		scaleText(d, fontMetrics, glyphVector, logicalBounds.getWidth(), height);
 

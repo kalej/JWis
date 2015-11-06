@@ -10,10 +10,10 @@ import ru.kjd.jwis.jwisfx.JWisController;
 /**
  * Created by Николай on 26.10.2015.
  */
-public class BulletinsTreeSelectionListener implements ChangeListener<TreeItem> {
+public class WisTreeItemSelectionListener implements ChangeListener<TreeItem> {
     JWisController jWisController;
 
-    public BulletinsTreeSelectionListener(JWisController jWisController) {
+    public WisTreeItemSelectionListener(JWisController jWisController) {
         this.jWisController = jWisController;
     }
 
@@ -21,6 +21,8 @@ public class BulletinsTreeSelectionListener implements ChangeListener<TreeItem> 
     public void changed(ObservableValue<? extends TreeItem> observable, TreeItem oldValue, TreeItem newValue) {
         if ( newValue instanceof WisTreeElement ){
             jWisController.onElementSelected((WisTreeElement)newValue);
+        } else if ( newValue instanceof WisTreeSubElement ) {
+            jWisController.show((WisTreeSubElement)newValue);
         }
     }
 }

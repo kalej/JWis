@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JCGM-core/JCGM-core.iml" filepath="$PROJECT_DIR$/JCGM-core/JCGM-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JCGM-image/JCGM-image.iml" filepath="$PROJECT_DIR$/JCGM-image/JCGM-image.iml" />
       <module fileurl="file://$PROJECT_DIR$/JWisFX/JWisFX.iml" filepath="$PROJECT_DIR$/JWisFX/JWisFX.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
     </modules>

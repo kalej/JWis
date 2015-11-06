@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import ru.kjd.jwis.core.*;
+import ru.kjd.jwis.jwisfx.urlhandlers.WisDocStreamHandler;
+import ru.kjd.jwis.jwisfx.urlhandlers.WisImgStreamHandler;
+import ru.kjd.jwis.jwisfx.urlhandlers.WisRefStreamHandler;
 import ru.kjd.jwis.core.xml.WisChapter;
 import ru.kjd.jwis.core.xml.WisHierarchy;
 import ru.kjd.jwis.core.xml.WisItemElement;
@@ -109,11 +112,11 @@ public class JWisFX extends Application {
             public URLStreamHandler createURLStreamHandler(String protocol) {
                 switch (protocol) {
                     case "wisimg":
-                        return new WisImgStreamHandler(resourceManager, wisHierarchy);
+                        return new WisImgStreamHandler();
                     case "wisref":
-                        return new WisRefStreamHandler(resourceManager, wisHierarchy, wisItemTabPane);
+                        return new WisRefStreamHandler();
                     case "wisdoc":
-                        return new WisDocStreamHandler(resourceManager, wisHierarchy);
+                        return new WisDocStreamHandler();
                     default:
                         log.info("Protocol: " + protocol);
                         return null;

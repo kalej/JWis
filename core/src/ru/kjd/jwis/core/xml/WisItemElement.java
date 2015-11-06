@@ -3,8 +3,10 @@ package ru.kjd.jwis.core.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @XmlRootElement(name = "sie")
 public class WisItemElement {
@@ -157,5 +159,23 @@ public class WisItemElement {
                 return true;
         }
         return false;
+    }
+
+    public String getDestId(int linkId){
+        for (WisLink link : links) {
+                if (link.getLinkId() == linkId)
+                    return link.getDest();
+        }
+
+        return null;
+    }
+
+    public int getDocId(int dest) {
+        for (WisItemElement itemElement : parent.getElements()) {
+            if (itemElement.getId() == dest)
+                return itemElement.getDocId();
+        }
+
+        return -1;
     }
 }

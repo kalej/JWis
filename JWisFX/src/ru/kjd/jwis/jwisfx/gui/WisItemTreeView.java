@@ -21,7 +21,7 @@ public class WisItemTreeView extends TreeView {
             root.getChildren().add(new WisTreeElement(itemElement));
         }
 
-        getSelectionModel().selectedItemProperty().addListener(new WisTreeItemListener());
+        //getSelectionModel().selectedItemProperty().addListener(new WisTreeItemListener());
     }
 
     public WisItem getItem() {

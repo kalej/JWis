@@ -15,7 +15,7 @@ public class WisTreeSubElement extends TreeItem {
         super(subElement.getName());
         this.subElement = subElement;
 
-        setGraphic(new ImageView("/bulletins/01.png"));
+        setGraphic(new ImageView("/bulletins/00.png"));
 
 /*        addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler() {
             @Override

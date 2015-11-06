@@ -73,7 +73,7 @@ public class WisItem {
     }
 
     public WisItemType getType() {
-        return WisItemType.valueOf(Integer.parseInt(num.substring(0, 2)));
+        return WisItemType.byValue(num);
     }
 
     public void setReverseLinks(WisChapter chapter) {

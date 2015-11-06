@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 /**
  * Created by Николай on 25.10.2015.
  */
-public class WisTreeSelectionListener implements ChangeListener<TreeItem>{
-    private static Logger log = Logger.getLogger(WisTreeSelectionListener.class.getName());
+public class WisHierarchyTreeSelectionListener implements ChangeListener<TreeItem>{
+    private static Logger log = Logger.getLogger(WisHierarchyTreeSelectionListener.class.getName());
     JWisController jWisController;
 
-    public WisTreeSelectionListener(JWisController jWisController) {
+    public WisHierarchyTreeSelectionListener(JWisController jWisController) {
         this.jWisController = jWisController;
     }
 
@@ -24,8 +24,6 @@ public class WisTreeSelectionListener implements ChangeListener<TreeItem>{
             jWisController.show((WisTreeSectionItem) newValue);
         } else if ( newValue instanceof WisTreeChapterItem ) {
             jWisController.show((WisTreeChapterItem) newValue);
-        } else {
-            log.info( newValue.getValue().toString() + " " + newValue.getClass().getName());
         }
     }
 }

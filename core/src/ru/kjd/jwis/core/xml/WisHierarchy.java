@@ -3,9 +3,7 @@ package ru.kjd.jwis.core.xml;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @XmlRootElement(name = "modelyear")
 public class WisHierarchy {
@@ -138,5 +136,25 @@ public class WisHierarchy {
         for (WisSection section : sections) {
             section.setReverseLinks(this);
         }
+    }
+
+    public String[] getMarkets() {
+        Set<String> result = new HashSet<>();
+        for( WisSection section : sections ){
+            for( WisChapter chapter : section.getChapters() ){
+                for( WisItem item : chapter.getItems() ){
+                    for( WisItemElement element : item.getElements() ){
+                        String markets = element.getMarkets();
+                        if ( markets == null || markets.isEmpty() )
+                            continue;
+
+                        for( String market : markets.split(" ") ){
+                            result.add(market.toUpperCase());
+                        }
+                    }
+                }
+            }
+        }
+        return result.toArray(new String[]{});
     }
 }

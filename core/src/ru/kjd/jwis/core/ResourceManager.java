@@ -1,18 +1,20 @@
 package ru.kjd.jwis.core;
 
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.util.Pair;
-import net.sf.jcgm.core.FontWrapper;
+import net.sf.jcgm.core.CGM;
+import net.sf.jcgm.core.CGMDisplay;
 import ru.kjd.jwis.core.utils.DirectoryScanner;
 import ru.kjd.jwis.core.utils.StringExtractor;
 import ru.kjd.jwis.core.xml.*;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -172,14 +174,27 @@ public class ResourceManager {
         ZipEntry entry = zipFile.getEntry(fileName + extArch.getKey());
 
         if (extArch.getKey().endsWith("cgm"))
-            return unpackImgFile(zipFile.getInputStream(entry));
+            return getConvertedFileStream(zipFile.getInputStream(entry));
         else
             return zipFile.getInputStream(entry);
     }
 
-    private InputStream unpackImgFile(InputStream inputStream) throws IOException {
-        File tmpCgm = File.createTempFile("img", ".cgm");
-        FileOutputStream fos = new FileOutputStream(tmpCgm);
+    private BufferedImage convertImage(CGM cgm){
+        CGMDisplay cgmDisplay = new CGMDisplay(cgm);
+        Dimension cgmDimension = cgm.getSize();
+        int cgmWidth = (int)Math.round(Math.floor(cgmDimension.getWidth()));
+        int cgmHeight = (int)Math.round(Math.floor(cgmDimension.getHeight()));
+
+        BufferedImage image = new BufferedImage(cgmWidth, cgmHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = image.getGraphics();
+        cgmDisplay.scale(graphics, cgmWidth, cgmHeight);
+        cgmDisplay.paint(graphics);
+
+        return image;
+    }
+
+    private void unpackToFile(InputStream inputStream, File file) throws IOException {
+        FileOutputStream fos = new FileOutputStream(file);
 
         int len;
         byte[] buffer = new byte[1024];
@@ -187,35 +202,23 @@ public class ResourceManager {
             fos.write(buffer, 0, len);
         }
         fos.close();
+    }
 
-        /*
+
+
+    private InputStream getConvertedFileStream(InputStream inputStream) throws IOException {
+        File tmpCgm = File.createTempFile("img", ".cgm");
+        unpackToFile(inputStream, tmpCgm);
+
         CGM cgm = new CGM(tmpCgm);
-        CGMDisplay display = new CGMDisplay(cgm);
-        Dimension dim = cgm.getSize();
-        int width = (int)Math.round(dim.getWidth());
-        int height = (int)Math.round(dim.getHeight());
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = img.createGraphics();
-        display.setTransparent(false);
-        display.paint(g);
-        //g.dispose();
-        */
-        BufferedImage img = ImageIO.read(tmpCgm);
+        BufferedImage image = convertImage(cgm);
+
         File tmpPng = File.createTempFile("img", ".png");
-        ImageIO.write(img, "PNG", tmpPng);
+        ImageIO.write(image, "png", tmpPng);
 
         log.info("Unpacked to " + tmpCgm.getName());
         log.info("Converted to " + tmpPng.getName());
         return new FileInputStream(tmpPng);
-    }
-
-    private FontWrapper getFontWrapper() {
-        Font def = Font.getDefault();
-        String name = def.getName();
-        int size = (int) Math.round(def.getSize());
-        String style = def.getStyle();
-
-        return new FontWrapper(new java.awt.Font(name, 0, size), false);
     }
 
     public List<String> getYears(String model) {
