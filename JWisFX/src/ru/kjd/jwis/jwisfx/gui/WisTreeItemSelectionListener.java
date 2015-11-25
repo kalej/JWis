@@ -7,9 +7,7 @@ import javafx.scene.control.TreeItem;
 import ru.kjd.jwis.core.xml.WisItem;
 import ru.kjd.jwis.jwisfx.JWisController;
 
-/**
- * Created by Николай on 26.10.2015.
- */
+
 public class WisTreeItemSelectionListener implements ChangeListener<TreeItem> {
     JWisController jWisController;
 

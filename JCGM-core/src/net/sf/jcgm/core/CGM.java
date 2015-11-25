@@ -61,6 +61,12 @@ public class CGM implements Cloneable {
 		// empty constructor. XXX: Remove?
 	}
 
+	public CGM(InputStream inputStream) throws IOException {
+		DataInputStream in = new DataInputStream(new BufferedInputStream(inputStream));
+		read(in);
+		in.close();
+	}
+
 	public CGM(File cgmFile) throws IOException {
 		if (cgmFile == null)
 			throw new NullPointerException("unexpected null parameter");

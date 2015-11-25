@@ -41,8 +41,8 @@ public class WisDialog extends Dialog<Pair<String,String>> {
 
             }
             setDialogPane(dialogPane);
-            ButtonType submitButtonType = new ButtonType(WisStrings.get(WisStrings.STRING_OK), ButtonBar.ButtonData.OK_DONE);
-            getDialogPane().getButtonTypes().add(submitButtonType);
+            //ButtonType submitButtonType = new ButtonType(WisStrings.get(WisStrings.STRING_OK), ButtonBar.ButtonData.OK_DONE);
+            //getDialogPane().getButtonTypes().add(submitButtonType);
         } catch (IOException e) {
             e.printStackTrace();
         }

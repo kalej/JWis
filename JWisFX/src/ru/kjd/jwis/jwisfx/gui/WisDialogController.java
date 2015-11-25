@@ -38,7 +38,9 @@ public class WisDialogController implements Initializable{
     }
 
     public void onYearChanged(ActionEvent actionEvent) {
-
+        ButtonType submitButtonType = new ButtonType(WisStrings.get(WisStrings.STRING_OK), ButtonBar.ButtonData.OK_DONE);
+        dialogPane.getButtonTypes().add(submitButtonType);
+        dialogPane.getScene().getWindow().sizeToScene();
     }
 
     public void onModelChanged(ActionEvent actionEvent) {

@@ -6,7 +6,6 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import ru.kjd.jwis.core.xml.WisItem;
 import ru.kjd.jwis.core.xml.WisItemElement;
-import ru.kjd.jwis.jwisfx.JWisFX;
 
 public class WisItemTreeView extends TreeView {
     TreeItem root;
@@ -20,8 +19,6 @@ public class WisItemTreeView extends TreeView {
         for (final WisItemElement itemElement : item.getElements()) {
             root.getChildren().add(new WisTreeElement(itemElement));
         }
-
-        //getSelectionModel().selectedItemProperty().addListener(new WisTreeItemListener());
     }
 
     public WisItem getItem() {
@@ -32,16 +29,6 @@ public class WisItemTreeView extends TreeView {
         setRoot(root);
         setShowRoot(false);
         root.setExpanded(true);
-    }
-
-    private class WisTreeItemListener implements ChangeListener {
-        public void changed(ObservableValue observableValue, Object o, Object t1) {
-            if (t1 instanceof WisTreeElement) {
-                JWisFX.showItemElement(((WisTreeElement) t1).getItemElement());
-            } else if (t1 instanceof WisTreeSubElement) {
-                JWisFX.showSubElement(((WisTreeSubElement) t1).getSubElement());
-            }
-        }
     }
 }
 

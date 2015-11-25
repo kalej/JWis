@@ -5,10 +5,12 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Pair;
@@ -174,8 +176,8 @@ public class JWisController implements Initializable {
 
                         List<WisSubElement> subElementList = itemElement.getSubElements();
                         if (subElementList != null && subElementList.size() > 0) {
-                            TreeItem parent = new WisTreeElement(itemElement);
-                            root.getChildren().add(parent);
+                            WisTreeElement treeElement = new WisTreeElement(itemElement);
+                            root.getChildren().add(treeElement);
                         }
                     }
                 }
@@ -211,13 +213,10 @@ public class JWisController implements Initializable {
         JWisHistory.setCurrentElement(itemElement);
 
         Tab currentTab = wisTabPane.getSelectionModel().getSelectedItem();
-        WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
-        webEngine.setJavaScriptEnabled(true);
 
-        webView.getEngine().load("wisdoc://" + itemElement.getDocId());
-
-        currentTab.setContent(webView);
+        WisDocPane docPane = new WisDocPane();
+        currentTab.setContent(docPane);
+        docPane.load(itemElement);
         statusLabel.setText(itemElement.toString());
     }
 
@@ -241,13 +240,10 @@ public class JWisController implements Initializable {
         JWisHistory.setCurrentSubelement(subElement);
 
         Tab currentTab = wisTabPane.getSelectionModel().getSelectedItem();
-        WebView webView = new WebView();
-        WebEngine webEngine = webView.getEngine();
-        webEngine.setJavaScriptEnabled(true);
 
-        WisItemElement itemElement = subElement.getParent();
-        webView.getEngine().load("wisdoc://" + itemElement.getDocId() + "#" + subElement.getSiSubId());
-
-        currentTab.setContent(webView);
+        WisDocPane docPane = new WisDocPane();
+        currentTab.setContent(docPane);
+        docPane.load(subElement);
+        statusLabel.setText(subElement.toString());
     }
 }

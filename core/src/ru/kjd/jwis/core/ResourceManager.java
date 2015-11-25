@@ -207,18 +207,23 @@ public class ResourceManager {
 
 
     private InputStream getConvertedFileStream(InputStream inputStream) throws IOException {
-        File tmpCgm = File.createTempFile("img", ".cgm");
-        unpackToFile(inputStream, tmpCgm);
+        //File tmpCgm = File.createTempFile("img", ".cgm");
+        //unpackToFile(inputStream, tmpCgm);
 
-        CGM cgm = new CGM(tmpCgm);
+        //CGM cgm = new CGM(tmpCgm);
+        CGM cgm = new CGM(inputStream);
         BufferedImage image = convertImage(cgm);
 
-        File tmpPng = File.createTempFile("img", ".png");
-        ImageIO.write(image, "png", tmpPng);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", os);
+        ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+        return is;
+        //File tmpPng = File.createTempFile("img", ".png");
+        //ImageIO.write(image, "png", tmpPng);
 
-        log.info("Unpacked to " + tmpCgm.getName());
-        log.info("Converted to " + tmpPng.getName());
-        return new FileInputStream(tmpPng);
+        //log.info("Unpacked to " + tmpCgm.getName());
+        //log.info("Converted to " + tmpPng.getName());
+        //return new FileInputStream(tmpPng);
     }
 
     public List<String> getYears(String model) {
