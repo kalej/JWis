@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kjd.jwis.jwisfx.JWisController">
+   <top>
+      <ToolBar>
+         <items>
+            <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#onBackClicked" />
+            <Button fx:id="fwdButton" mnemonicParsing="false" onMouseClicked="#onFwdClicked" />
+          <Button fx:id="selectButton" mnemonicParsing="false" onMouseClicked="#onSelectClicked" />
+            <Separator orientation="VERTICAL" />
+            <CheckBox fx:id="marketChbox" mnemonicParsing="false" onAction="#onMarketFilter" />
+            <ComboBox fx:id="marketCombo" disable="true" />
+         </items>
+      </ToolBar>
+   </top>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="statusLabel" />
+            <Label fx:id="docLabel" />
+            <Label fx:id="picLabel" />
+         </children>
+      </HBox>
+   </bottom>
+   <left>
+      <TreeView fx:id="wisTreeView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <TabPane fx:id="wisTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+            <Tab fx:id="techDataTab" closable="false" disable="true" />
+          <Tab fx:id="specialToolsTab" closable="false" disable="true" />
+          <Tab fx:id="techDescTab" closable="false" disable="true" />
+            <Tab fx:id="commonTrblshootTab" closable="false" disable="true" />
+            <Tab fx:id="faultCodeTab" closable="false" disable="true" />
+            <Tab fx:id="symptomsTab" closable="false" disable="true" />
+            <Tab fx:id="replacementTab" closable="false" disable="true" />
+            <Tab fx:id="locationTab" closable="false" disable="true" />
+            <Tab fx:id="electricsTab" closable="false" disable="true" />
+            <Tab fx:id="bulletinsTab" closable="false" disable="true" />
+            <Tab fx:id="serviceTab" closable="false" disable="true" />
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
